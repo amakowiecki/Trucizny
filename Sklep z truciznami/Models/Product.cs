@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
@@ -8,6 +9,21 @@ using System.Threading.Tasks;
 
 namespace Sklep_z_truciznami.Models
 {
+
+    public enum Category
+    {
+        [Display(Name = "Jadalne")]
+        Edible,
+
+        [Display(Name = "Skórne")]
+        Dermal,
+
+        [Display(Name ="Wziewne")]
+        Inhaled,
+
+        [Display(Name = "Dożylne")]
+        Intravenous
+    }
     public class Product
     {
         [Required][Key]
@@ -25,6 +41,19 @@ namespace Sklep_z_truciznami.Models
         [Required]
         [Display(Name = "Dostępna ilość")]
         public int Quantity { get; set; }
+
+
+        [Required]
+        [Display(Name = "Data dodania")]
+        public DateTime AddDate { get; set; }
+
+        [Required]
+        [Display(Name = "Kategoria")]
+        public Category Category { get; set; }
+
+        [Required]
+        [Display(Name = "Cena za sztukę")]
+        public double Price { get; set; }
 
 
         /// <summary>

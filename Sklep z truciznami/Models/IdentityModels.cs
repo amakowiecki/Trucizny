@@ -16,7 +16,7 @@ namespace Sklep_z_truciznami.Models
     public class ApplicationUser : IdentityUser
     {
         [Display(Name = "Nazwa użytkownika")]
-        public string Username { get; set; }
+        public string Login { get; set; }
 
         [Display(Name = "Imię")]
         public string FirstName { get; set; } 

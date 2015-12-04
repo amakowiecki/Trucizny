@@ -9,9 +9,29 @@ namespace Sklep_z_truciznami.Models
 {
     public enum OrderStatus
     {
+        /// <summary>
+        /// Złożone przez klienta
+        /// </summary>
+        [Display(Name = "Złożone")]
         Ordered,
-        Realizing,
+
+        /// <summary>
+        /// Anulowane przez klienta
+        /// </summary>
+        [Display(Name = "Anulowane")]
+        Cancelled,  
+
+        /// <summary>
+        /// Zaakceptowane przez właściciela
+        /// </summary>
+        [Display(Name = "Zrealizowane")]
         Realized,
+
+
+        /// <summary>
+        /// Odrzucone przez właściciela
+        /// </summary>
+        [Display(Name = "Odrzucone")]
         Rejected
         
     }
