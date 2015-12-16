@@ -151,7 +151,7 @@ namespace Sklep_z_truciznami.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, AccessFailedCount = 0, IsActive = true, UserType =  AccountType.User};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
