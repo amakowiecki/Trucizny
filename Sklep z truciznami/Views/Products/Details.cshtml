@@ -1,0 +1,147 @@
+﻿@*@model Sklep_z_truciznami.Models.Product*@
+@model Sklep_z_truciznami.Models.Details
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Product.SupplierId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.SupplierId)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.ProductDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.ProductDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.AddDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.AddDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Category)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Tags)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Tags)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Product.Photo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Photo)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.RatingSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.RatingSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.RatingNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.RatingNumber)
+        </dd>
+    </dl>
+
+    <div>
+        <img src=@Url.Action("Show", "Products", new { id = @Model.Product.ProductId } ) />
+    </div>
+
+    <div>
+        <h4>Komentarze</h4>
+        <hr />
+        <div class="dl-horizontal"></div>
+
+        <ul>
+            @foreach (var coment in @Model.Comments)
+            {
+                <li>@coment.CommentContent</li>
+            }
+        </ul>
+    </div>
+
+    @using (Html.BeginForm("AddComment", "Products", new { id = @Model.Product.ProductId }, FormMethod.Post, null))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Dodaj Komentarz</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Comment.CommentContent, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Comment.CommentContent, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Comment.CommentContent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Dodaj Komentarz" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Product.ProductId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

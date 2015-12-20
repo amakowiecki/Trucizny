@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +25,7 @@ namespace Sklep_z_truciznami.Models
         public DateTime CommentDate { get; set; }
 
         [Required]
+        [Display(Name = "Treść Komentarza")]
         public string CommentContent { get; set; }
 
         /// <summary>
@@ -29,5 +33,39 @@ namespace Sklep_z_truciznami.Models
         /// </summary>
         [Required]
         public bool IsVisible { get; set; }
+
+        public Comment()
+        {
+
+        }
+
+        public Comment(string userName, int produtId, string commentContent)
+        {
+            this.UserId = GetUserId(userName);
+
+            this.ProductId = produtId;
+            this.CommentContent = commentContent;
+            this.CommentDate = DateTime.Today;
+            this.IsVisible = true;
+        }
+
+        private string GetUserId(string userName)
+        {
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            ApplicationUser user = userManager.FindByNameAsync(userName).Result;
+
+            return user.Id;
+        }
+    }
+
+    public class CommentContext : DbContext
+    {
+        public CommentContext()
+            : base("DefaultConnection")
+        {
+        }
+
+        public DbSet<Comment> Comments { get; set; }
     }
 }

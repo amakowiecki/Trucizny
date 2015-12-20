@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sklep_z_truciznami.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,10 @@ namespace Sklep_z_truciznami.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            LatestAndMostPopularProducts LatestAndMostPopularProducts = new LatestAndMostPopularProducts();
+            LatestAndMostPopularProducts.SetTop10LatestAndMostPopular();
+
+            return View(LatestAndMostPopularProducts);
         }
 
         public ActionResult About()

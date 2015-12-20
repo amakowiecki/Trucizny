@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Sklep_z_truciznami.Models
 {
-
     public enum Category
     {
         [Display(Name = "Jadalne")]
@@ -63,13 +63,39 @@ namespace Sklep_z_truciznami.Models
         [Display(Name = "Tagi")]
         public string Tags { get; set; }
 
-        public Image Photo { get; set; } //typ System.Drawing.Image, nie jestem pewien czy taki będzie dobry
+        //zmieniłem na string, będzie to ścieżka do pliku umieszczanego na serwerze
+        //public byte[] Photo { get; set; } //typ System.Drawing.Image, nie jestem pewien czy taki będzie dobry
+        //public Photo Photo { get; set; }
+
+
+        public string PhotoImageFileName { get; set; }
+        public string PhotoImageMimeType { get; set; }
+        public byte[] PhotoFile { get; set; }
+
 
         //oceny wyliczane dla produktu jako iloraz RatingSum/RatingNumber
         public int RatingSum { get; set; } //suma ocen
         public int RatingNumber { get; set; } //ilość ocen
+    }
+
+    public class ProductContext : DbContext
+    {
+        public ProductContext()
+            : base("DefaultConnection")
+        {
+        }
+
+        public DbSet<Product> Products { get; set; }
+    }
 
 
-        
+    public class Product2Context : DbContext
+    {
+        public Product2Context()
+            : base("DefaultConnection")
+        {
+        }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
