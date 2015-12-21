@@ -9,14 +9,20 @@ namespace Sklep_z_truciznami.Models
     {
         public Product Product { get; set; }
         public Comment Comment { get; set; }
+        public Rating Rating { get; set; }
         public IList<Comment> Comments { get; set; }
 
         private CommentContext CommentDb;
+        private Rating2Context RatingContext;
 
-        public Details(Product product, CommentContext commentDb)
+        public Details(Product product, CommentContext commentDb, Rating2Context ratingContext, string userName)
         {
             Product = product;
             CommentDb = commentDb;
+            RatingContext = ratingContext;
+
+            Rating = RatingContext.FindRating(userName, Product.ProductId);
+
 
             SetProductComments();
         }

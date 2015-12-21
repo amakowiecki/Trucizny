@@ -63,7 +63,7 @@ namespace Sklep_z_truciznami.Models
         [Display(Name = "Tagi")]
         public string Tags { get; set; }
 
-        //zmieniłem na string, będzie to ścieżka do pliku umieszczanego na serwerze
+
         //public byte[] Photo { get; set; } //typ System.Drawing.Image, nie jestem pewien czy taki będzie dobry
         //public Photo Photo { get; set; }
 
@@ -76,17 +76,22 @@ namespace Sklep_z_truciznami.Models
         //oceny wyliczane dla produktu jako iloraz RatingSum/RatingNumber
         public int RatingSum { get; set; } //suma ocen
         public int RatingNumber { get; set; } //ilość ocen
-    }
 
-    public class ProductContext : DbContext
-    {
-        public ProductContext()
-            : base("DefaultConnection")
+        public void IncrementRatingSum()
         {
+            RatingSum++;
         }
-
-        public DbSet<Product> Products { get; set; }
     }
+
+    //public class ProductContext : DbContext
+    //{
+    //    public ProductContext()
+    //        : base("DefaultConnection")
+    //    {
+    //    }
+
+    //    public DbSet<Product> Products { get; set; }
+    //}
 
 
     public class Product2Context : DbContext
@@ -97,5 +102,35 @@ namespace Sklep_z_truciznami.Models
         }
 
         public DbSet<Product> Products { get; set; }
+
+        public byte[] FindImageById(int id)
+        {
+            byte[] ImageData = (from x in Products
+                             where x.ProductId == id
+                             select x.PhotoFile).SingleOrDefault();
+
+            return ImageData;
+        }
+
+        public void UpdateProductRating(int productId, int rate)
+        {
+            Product product = Products.Find(productId);
+
+            product.RatingSum += rate;
+            product.RatingNumber++;
+
+            this.Entry(product).State = EntityState.Modified;
+            this.SaveChanges();
+        }
+
+        public void ChangeProductRating(int productId, int rate)
+        {
+            Product product = Products.Find(productId);
+
+            product.RatingSum += rate;
+
+            this.Entry(product).State = EntityState.Modified;
+            this.SaveChanges();
+        }
     }
 }

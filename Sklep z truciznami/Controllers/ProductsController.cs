@@ -17,6 +17,7 @@ namespace Sklep_z_truciznami.Controllers
     {
         private Product2Context ProductDb = new Product2Context();
         private CommentContext CommentDb = new CommentContext();
+        private Rating2Context RatingDb = new Rating2Context();
 
         public ActionResult Index()
         {
@@ -35,18 +36,16 @@ namespace Sklep_z_truciznami.Controllers
                 return HttpNotFound();
             }
 
-            Details Details = new Details(product, CommentDb);
+            Details Details = new Details(product, CommentDb, RatingDb, User.Identity.Name);
 
             return View(Details);
         }
 
         public ActionResult Show(int id)
         {
-            var imageData = (from x in ProductDb.Products
-                             where x.ProductId == id
-                             select x.PhotoFile).SingleOrDefault();
+            byte[] ImageData = ProductDb.FindImageById(id);
 
-            return File(imageData, "image/jpg");
+            return File(ImageData, "image/jpg");
         }
 
         public ActionResult AddComment()
@@ -69,6 +68,38 @@ namespace Sklep_z_truciznami.Controllers
             }
 
             return View(comment);
+        }
+
+        public ActionResult AddRating()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddRating(int id, [Bind(Include = "RateId,ClientId,ProductId,Rate")] Rating rating)
+        {
+            Rating FindRating = RatingDb.FindRating(User.Identity.Name, id);
+
+            if (FindRating != null)
+            {
+                ProductDb.ChangeProductRating(id, rating.Rate - FindRating.Rate);
+                FindRating.Rate = rating.Rate;
+
+                RatingDb.Entry(FindRating).State = EntityState.Modified;
+                RatingDb.SaveChanges();
+            }
+            else
+            {
+                Rating Rating = new Rating(User.Identity.Name, id, rating.Rate);
+
+                ProductDb.UpdateProductRating(id, Rating.Rate);
+
+                RatingDb.Ratings.Add(Rating);
+                RatingDb.SaveChanges();
+            }
+
+            return RedirectToAction("Details", "Products", new { id = id });
         }
 
         public ActionResult Create()
