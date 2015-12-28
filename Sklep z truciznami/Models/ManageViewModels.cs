@@ -11,6 +11,11 @@ namespace Sklep_z_truciznami.Models
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool BrowserRemembered { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string StreetAndNumber { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
     }
 
     public class ManageLoginsViewModel

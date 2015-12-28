@@ -64,16 +64,50 @@ namespace Sklep_z_truciznami.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = UserManager.Users.Where(_ => _.Id == userId).FirstOrDefault();
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                City = user.City,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                StreetAndNumber = user.StreetAndNumber,
+                ZipCode = user.ZipCode
             };
             return View(model);
         }
 
+        public ActionResult ChangeData()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.Users.Where(_ => _.Id == userId).FirstOrDefault();
+            var model = new AdressDataModel() 
+            {
+                City = user.City,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                StreetAndNumber = user.StreetAndNumber,
+                ZipCode = user.ZipCode
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeData(ApplicationUser model)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.Users.Where(_ => _.Id == userId).FirstOrDefault();
+            user.City = model.City;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.StreetAndNumber = model.StreetAndNumber;
+            user.ZipCode = model.ZipCode;
+            UserManager.Update(user);
+            return RedirectToAction("Index");
+        }
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]

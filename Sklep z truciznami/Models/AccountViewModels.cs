@@ -80,6 +80,28 @@ namespace Sklep_z_truciznami.Models
         [Display(Name = "Potwierdź hasło")]
         [Compare("Password", ErrorMessage = "Podane hasła nie zgadzają się.")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [Display(Name = "Imię")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [Display(Name = "Nazwisko")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [Display(Name = "Ulica i numer domu")]
+        public string StreetAndNumber { get; set; }
+
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [Display(Name = "Miejscowość")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [Display(Name = "Kod pocztowy")]
+        public string ZipCode { get; set; }
+
+
     }
 
     public class ResetPasswordViewModel

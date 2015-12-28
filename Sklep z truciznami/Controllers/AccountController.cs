@@ -73,13 +73,21 @@ namespace Sklep_z_truciznami.Controllers
                 return View(model);
             }
 
+            var t = UserManager.Users.Where(_ => _.Email == model.Email).FirstOrDefault();
+            if (!t.IsActive)
+            {
+                return View("Baned");
+            }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -151,7 +159,20 @@ namespace Sklep_z_truciznami.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, AccessFailedCount = 0, IsActive = true, UserType =  AccountType.User};
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    StreetAndNumber = model.StreetAndNumber,
+                    City = model.City,
+                    ZipCode = model.ZipCode,
+                    AccessFailedCount = 0,
+                    IsActive = true,
+                    UserType = AccountType.User
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
