@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Sklep_z_truciznami.Controllers
 {
-    [Authorize]
+    //[Authorize(Roles="Administrator")]
     public class ProductsController : Controller
     {
         private Product2Context ProductDb = new Product2Context();
@@ -118,6 +118,7 @@ namespace Sklep_z_truciznami.Controllers
                 product.PhotoFile = new byte[image.ContentLength];
                 image.InputStream.Read(product.PhotoFile, 0, image.ContentLength);
 
+                product.AddDate = DateTime.Today;
 
                 ProductDb.Products.Add(product);
                 ProductDb.SaveChanges();

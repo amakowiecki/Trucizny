@@ -3,7 +3,7 @@ namespace Sklep_z_truciznami.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -20,6 +20,9 @@ namespace Sklep_z_truciznami.Migrations
                         Category = c.Int(nullable: false),
                         Price = c.Double(nullable: false),
                         Tags = c.String(nullable: false),
+                        PhotoImageFileName = c.String(),
+                        PhotoImageMimeType = c.String(),
+                        PhotoFile = c.Binary(),
                         RatingSum = c.Int(nullable: false),
                         RatingNumber = c.Int(nullable: false),
                     })

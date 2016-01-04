@@ -35,13 +35,14 @@ namespace Sklep_z_truciznami.Models
         public string ProductName { get; set; }
 
         [Required]
+        [MaxLength(300)]
         [Display(Name = "Opis produktu")]
         public string ProductDescription { get; set; }
 
         [Required]
+        [Range(1, 1000)]
         [Display(Name = "Dostępna ilość")]
         public int Quantity { get; set; }
-
 
         [Required]
         [Display(Name = "Data dodania")]
@@ -82,17 +83,6 @@ namespace Sklep_z_truciznami.Models
             RatingSum++;
         }
     }
-
-    //public class ProductContext : DbContext
-    //{
-    //    public ProductContext()
-    //        : base("DefaultConnection")
-    //    {
-    //    }
-
-    //    public DbSet<Product> Products { get; set; }
-    //}
-
 
     public class Product2Context : DbContext
     {
