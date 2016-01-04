@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Sklep_z_truciznami.Controllers
 {
-    //[Authorize(Roles="Administrator")]
+    [Authorize]
     public class ProductsController : Controller
     {
         private Product2Context ProductDb = new Product2Context();
@@ -102,6 +102,7 @@ namespace Sklep_z_truciznami.Controllers
             return RedirectToAction("Details", "Products", new { id = id });
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create()
         {
             return View();
@@ -109,6 +110,7 @@ namespace Sklep_z_truciznami.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create([Bind(Include = "ProductId,SupplierId,ProductName,ProductDescription,Quantity,AddDate,Category,Price,Tags,Photo,RatingSum,RatingNumber")] Product product, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
@@ -129,6 +131,7 @@ namespace Sklep_z_truciznami.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -145,6 +148,7 @@ namespace Sklep_z_truciznami.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit([Bind(Include = "ProductId,SupplierId,ProductName,ProductDescription,Quantity,AddDate,Category,Price,Tags,Photo,RatingSum,RatingNumber")] Product product)
         {
             if (ModelState.IsValid)
@@ -156,6 +160,7 @@ namespace Sklep_z_truciznami.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
