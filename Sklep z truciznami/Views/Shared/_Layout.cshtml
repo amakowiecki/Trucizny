@@ -30,7 +30,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 @foreach (var item in Enum.GetNames(typeof(Sklep_z_truciznami.Models.Category)))
                                 {
-                                    <li><a href="#">@item</a></li>
+                                    <li><a href="#">@Sklep_z_truciznami.Models.Product.GetCategoryDisplayName(item)</a></li>
                                 }
                             </ul>
                         </div>

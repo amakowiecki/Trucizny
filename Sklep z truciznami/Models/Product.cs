@@ -24,6 +24,17 @@ namespace Sklep_z_truciznami.Models
         [Display(Name = "Dożylne")]
         Intravenous
     }
+    public enum Unit
+    {
+        [Display(Name = "Fiolka 10ml")]
+        Phial10ml,
+
+        [Display(Name = "Woreczek 20g")]
+        Bag20g,
+
+        [Display(Name = "Sztuka")]
+        Piece
+    }
     public class Product
     {
         [Required][Key]
@@ -56,6 +67,9 @@ namespace Sklep_z_truciznami.Models
         [Display(Name = "Cena za sztukę")]
         public double Price { get; set; }
 
+        [Required]
+        [Display(Name = "Jednostka")]
+        public Unit Unit { get; set; }
 
         /// <summary>
         /// tagi produktu oddzielane przecinkami
@@ -81,6 +95,13 @@ namespace Sklep_z_truciznami.Models
         public void IncrementRatingSum()
         {
             RatingSum++;
+        }
+
+        static public string GetCategoryDisplayName(string name)
+        {
+            string DisplayName = (typeof(Category).GetMember(name)[0].CustomAttributes.First().NamedArguments.First().TypedValue.Value).ToString();
+
+            return DisplayName;
         }
     }
 
