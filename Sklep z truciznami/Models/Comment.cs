@@ -24,7 +24,7 @@ namespace Sklep_z_truciznami.Models
         [Required]
         public DateTime CommentDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Wypełnij treść komentarza")]
         [Display(Name = "Treść Komentarza")]
         public string CommentContent { get; set; }
 

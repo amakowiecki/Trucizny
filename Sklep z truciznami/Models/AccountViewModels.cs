@@ -41,19 +41,19 @@ namespace Sklep_z_truciznami.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [Display(Name = "Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Nieprawidłowy adres email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [DataType(DataType.Password)]
         [Display(Name = "Hasło")]
         public string Password { get; set; }
@@ -65,12 +65,12 @@ namespace Sklep_z_truciznami.Models
     public class RegisterViewModel
     {
 
-        [Required(ErrorMessage = "Pole {0} jest wymagane")] //TODO: zrobić sensowną lokalizację komunikatów walidacyjnych
-        [EmailAddress]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [EmailAddress(ErrorMessage ="Nieprawidłowy adres email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Hasło")]
@@ -106,12 +106,12 @@ namespace Sklep_z_truciznami.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [EmailAddress(ErrorMessage = "Nieprawidłowy adres email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Hasło")]
@@ -127,8 +127,8 @@ namespace Sklep_z_truciznami.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [EmailAddress(ErrorMessage = "Nieprawidłowy adres email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }

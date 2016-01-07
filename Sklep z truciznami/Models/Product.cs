@@ -41,17 +41,17 @@ namespace Sklep_z_truciznami.Models
         public int ProductId { get; set; }
         public string SupplierId { get; set; } //gdyby potencjalnie było kilku dostawców
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [Display(Name = "Nazwa produktu")]
         public string ProductName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [MaxLength(300)]
         [Display(Name = "Opis produktu")]
         public string ProductDescription { get; set; }
 
-        [Required]
-        [Range(1, 1000)]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
+        [Range(1, 1000, ErrorMessage ="Dostępna ilość może mieć wartość między 1 a 1000")]
         [Display(Name = "Dostępna ilość")]
         public int Quantity { get; set; }
 
@@ -59,22 +59,22 @@ namespace Sklep_z_truciznami.Models
         [Display(Name = "Data dodania")]
         public DateTime AddDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [Display(Name = "Kategoria")]
         public Category Category { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [Display(Name = "Cena za sztukę")]
         public double Price { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [Display(Name = "Jednostka")]
         public Unit Unit { get; set; }
 
         /// <summary>
         /// tagi produktu oddzielane przecinkami
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [Display(Name = "Tagi")]
         public string Tags { get; set; }
 

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Sklep_z_truciznami.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Sklep_z_truciznami.Controllers
 {
@@ -71,13 +72,7 @@ namespace Sklep_z_truciznami.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
-            }
-
-            var t = UserManager.Users.Where(_ => _.Email == model.Email).FirstOrDefault();
-            if (!t.IsActive)
-            {
-                return View("Baned");
-            }
+            }            
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -86,6 +81,27 @@ namespace Sklep_z_truciznami.Controllers
             {
                 case SignInStatus.Success:
                     {
+                        var t = UserManager.Users.Where(_ => _.Email == model.Email).FirstOrDefault();
+
+                        if (!t.IsActive)
+                        {
+                            return View("Baned");
+                        }
+                        if(t.UserType == AccountType.Owner)
+                        {
+                            var db = new ApplicationDbContext();
+                            var roleStore = new RoleStore<IdentityRole>(db);
+                            var roleManager = new RoleManager<IdentityRole>(roleStore);
+                            if (!roleManager.RoleExists("Owner"))
+                            {
+                                var role = new IdentityRole("Owner");
+                                roleManager.Create(role);
+                            }                           
+                            var userStore = new UserStore<ApplicationUser>(db);
+                            var userManager = new UserManager<ApplicationUser>(userStore);
+                            userManager.AddToRole(t.Id, "Owner");
+
+                        }
                         return RedirectToLocal(returnUrl);
                     }
                 case SignInStatus.LockedOut:
@@ -94,9 +110,9 @@ namespace Sklep_z_truciznami.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Nieprawidłowe dane logowania.");
                     return View(model);
-            }
+            }            
         }
 
         //

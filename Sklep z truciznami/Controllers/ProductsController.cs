@@ -57,17 +57,15 @@ namespace Sklep_z_truciznami.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddComment(int id, [Bind(Include = "CommentId,UserId,ProductId,CommentDate,CommentContent,IsVisible")] Comment comment)
         {
-            if (comment.CommentContent != "")
+            if (comment!= null && comment.CommentContent!= null &&comment.CommentContent != "")
             {
                 Comment Comment = new Models.Comment(User.Identity.Name, id, comment.CommentContent);
 
                 CommentDb.Comments.Add(Comment);
                 CommentDb.SaveChanges();
-
-                return RedirectToAction("Details", "Products", new { id = id });
             }
 
-            return View(comment);
+            return RedirectToAction("Details", "Products", new { id = id });
         }
 
         public ActionResult AddRating()
@@ -120,7 +118,7 @@ namespace Sklep_z_truciznami.Controllers
                 product.PhotoFile = new byte[image.ContentLength];
                 image.InputStream.Read(product.PhotoFile, 0, image.ContentLength);
 
-                product.AddDate = DateTime.Today;
+                product.AddDate = DateTime.Now;
 
                 ProductDb.Products.Add(product);
                 ProductDb.SaveChanges();

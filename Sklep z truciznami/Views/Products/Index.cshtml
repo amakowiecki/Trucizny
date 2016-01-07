@@ -59,7 +59,7 @@
             @Html.DisplayFor(modelItem => item.AddDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Category)
+            @CategoryHelper.GetName(item.Category)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)

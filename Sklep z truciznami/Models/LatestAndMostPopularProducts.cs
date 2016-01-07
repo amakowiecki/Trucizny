@@ -36,6 +36,7 @@ namespace Sklep_z_truciznami.Models
         private void GetMostPoplarProducts()
         {
             MostPopular = (from x in Db.Products
+                           where x.RatingSum > 0
                            let rating = x.RatingNumber / x.RatingSum
                            orderby rating descending
                            select x)
