@@ -85,6 +85,7 @@ namespace Sklep_z_truciznami.Models
 
         public string PhotoImageFileName { get; set; }
         public string PhotoImageMimeType { get; set; }
+        [Display(Name = "Zdjęcie")]
         public byte[] PhotoFile { get; set; }
 
 
