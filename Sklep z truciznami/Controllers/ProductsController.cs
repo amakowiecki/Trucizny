@@ -41,6 +41,7 @@ namespace Sklep_z_truciznami.Controllers
             return View(Details);
         }
 
+        [AllowAnonymous]
         public ActionResult Show(int id)
         {
             byte[] ImageData = ProductDb.FindImageById(id);
