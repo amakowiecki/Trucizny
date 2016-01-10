@@ -177,7 +177,7 @@ namespace Sklep_z_truciznami.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = ProductDb.Products.Find(id);
+            Product product = ProductDb.Products.Find(id);  
             ProductDb.Products.Remove(product);
             ProductDb.SaveChanges();
             return RedirectToAction("Index");

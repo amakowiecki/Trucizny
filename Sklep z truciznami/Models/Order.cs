@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,4 +63,14 @@ namespace Sklep_z_truciznami.Models
 
 
     }
+
+   public class Order2Context : DbContext
+   {
+       public Order2Context()
+           : base("DefaultConnection")
+       {
+       }
+
+       public DbSet<Order> Orders { get; set; }
+   }
 }

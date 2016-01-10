@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>ShowCart</h2>
+@Html.ActionLink("Show orders","ShowOrders","Order")
+<br />
+@if (Session["order"] != null && (Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>).Count != 0)
+{
+    double overallPrice = 0;
+    <table>
+        <tr>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Name
+            </th>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Description
+            </th>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Quantity
+            </th>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Price
+            </th>
+            <th style="min-width:100px;padding:0 10px 0 10px"></th>
+        </tr>        
+
+        @foreach (var PairProductQuantity in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+        {
+            double price = PairProductQuantity.Key.Quantity * PairProductQuantity.Value;
+            overallPrice += price;
+            <tr>
+                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductName</td>
+                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductDescription</td>
+                <td style="padding:0 10px 0 10px">@PairProductQuantity.Value.ToString()</td>
+                <td style="padding:0 10px 0 10px">@(price.ToString() + " PLN")</td>
+                <td style="padding:0 10px 0 10px">@Html.ActionLink("Remove", "RemoveProductFromCart", "Order", new { productID = PairProductQuantity.Key.ProductId }, null)</td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td style="text-align:right;padding:0 10px 0 10px">Sum: </td>
+            <td style="padding:0 10px 0 10px">@overallPrice PLN</td>
+        </tr>
+    </table>
+    <div>@Html.ActionLink("Continue shopping","Index","Products")</div>
+    <div>@Html.ActionLink("Checkout", "PlaceOrder","Order")</div>
+}
+else
+{
+    @Html.Label("koszyk jest pusty");
+}
+

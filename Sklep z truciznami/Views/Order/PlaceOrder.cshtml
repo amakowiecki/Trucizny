@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "PlaceOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PlaceOrder</h2>
+
+@if (Session["order"] != null && (Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>).Count != 0)
+{
+    double overallPrice = 0;
+    <table>
+        <tr>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Name
+            </th>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Description
+            </th>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Quantity
+            </th>
+            <th style="min-width:100px;padding:0 10px 0 10px">
+                Price
+            </th>
+        </tr>
+
+        @foreach (var PairProductQuantity in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+        {
+            double price = PairProductQuantity.Key.Quantity * PairProductQuantity.Value;
+            overallPrice += price;
+            <tr>
+                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductName</td>
+                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductDescription</td>
+                <td style="padding:0 10px 0 10px">@PairProductQuantity.Value.ToString()</td>
+                <td style="padding:0 10px 0 10px">@(price.ToString() + " PLN")</td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td style="text-align:right;padding:0 10px 0 10px">Sum: </td>
+            <td style="padding:0 10px 0 10px;font:bold">@overallPrice PLN</td>
+        </tr>
+    </table>
+    <div>@using (Html.BeginForm("PlaceOrder","Order"))
+         {
+             @Html.Hidden("acceptance",true)
+          <input type="submit" value="submit" />  
+         } </div>
+}
+else
+{
+    @Html.Label("koszyk jest pusty");
+}
