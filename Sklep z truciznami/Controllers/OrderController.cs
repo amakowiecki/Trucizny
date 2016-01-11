@@ -241,5 +241,10 @@ namespace Sklep_z_truciznami.Controllers
 
             return View("ShowOrders",GetOrders());
         }
+
+        public ActionResult ShowCartInMenu()
+        {
+            return View("PartialCart");
+        }
     }
 }

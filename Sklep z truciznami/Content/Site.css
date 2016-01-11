@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+.cart {
+    display:block;
+}
+.cart:hover {
+    display:none;
+}

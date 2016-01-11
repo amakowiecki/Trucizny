@@ -1,0 +1,39 @@
+﻿<div class="productListContainer" style="display: block;">
+    <div id="products">
+        <div id="productListOnHover">
+            <div id="productsViewport" >
+                <ul id="itemList" >
+                    @{
+                        if (Session["order"] != null)
+                        {
+                            foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+                            {
+                                <li id="item" style="display:flex">
+                                    <div id="img">
+                                        <div id="">
+                                            <a href="#" title="@item.Key.ProductName" rel="nofollow" ><img style="height:50px" src="@Url.Action("Show", "Products", new { id = @item.Key.ProductId } )" alt="@item.Key.ProductName"></a>
+                                        </div>
+                                    </div>
+                                    <div id="info">
+                                        <p id="name">
+                                            <span id="quantity"><b>@item.Value</b> <span style="color:#808080">x</span> </span>
+                                            <a href="#" id="title" title="@item.Key.ProductName">
+                                                <span id="Title">
+                                                    @item.Key.ProductName
+                                                </span>
+                                            </a>
+                                        </p>
+                                        <p id="category">@item.Key.Category</p>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+                    
+                </ul>
+            </div>
+            @Html.ActionLink("Przejdź do koszyka", "ShowCart", "Order")
+        </div>
+
+    </div>
+</div>
