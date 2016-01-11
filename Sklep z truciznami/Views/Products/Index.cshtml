@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Sklep_z_truciznami.Models.Product>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Produkty";
 }
 
 <h2>Index</h2>
@@ -59,7 +59,7 @@
             @Html.DisplayFor(modelItem => item.AddDate)
         </td>
         <td>
-            @CategoryHelper.GetName(item.Category)
+            @EnumsHelper.GetName(item.Category)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)

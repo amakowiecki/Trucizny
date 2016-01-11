@@ -33,9 +33,9 @@ namespace Sklep_z_truciznami.Models
         [Display(Name = "Kod pocztowy")]
         public string ZipCode { get; set; }
 
-
-        public bool IsActive { get; set; } //tego oczywiście nie chcemy wyświetlać użytkownikowi
-        public AccountType UserType { get; set; }   //tego też
+        [Display(Name = "Konto aktywne")]
+        public bool IsActive { get; set; } 
+        public AccountType UserType { get; set; }   
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -58,5 +58,7 @@ namespace Sklep_z_truciznami.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<Sklep_z_truciznami.Models.ApplicationUser> Users { get; set; }
     }
 }

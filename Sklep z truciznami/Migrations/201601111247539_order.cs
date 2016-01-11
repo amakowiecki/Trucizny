@@ -3,16 +3,16 @@ namespace Sklep_z_truciznami.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial2 : DbMigration
+    public partial class order : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Products", "Unit", c => c.Int(nullable: false));
+            AlterColumn("dbo.Orders", "AnswerDate", c => c.DateTime());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Products", "Unit");
+            AlterColumn("dbo.Orders", "AnswerDate", c => c.DateTime(nullable: false));
         }
     }
 }

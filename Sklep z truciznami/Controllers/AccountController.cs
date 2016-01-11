@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Sklep_z_truciznami.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Net;
 
 namespace Sklep_z_truciznami.Controllers
 {
@@ -438,6 +439,22 @@ namespace Sklep_z_truciznami.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Owner")]
+        public ActionResult Details(string userName)
+        {
+            if (userName == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationDbContext db = new ApplicationDbContext();
+            var user = db.Users.Where(u => u.UserName == userName).FirstOrDefault();
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View("Details", user);
         }
 
         protected override void Dispose(bool disposing)

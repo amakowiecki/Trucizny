@@ -1,11 +1,12 @@
-﻿@{
-    ViewBag.Title = "Cart";
+﻿@model List<Sklep_z_truciznami.Models.Order>
+@{
+    ViewBag.Title = "Koszyk";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <h2>ShowCart</h2>
-@Html.ActionLink("Show orders","ShowOrders","Order")
+@Html.ActionLink("Pokaż zamówienia","ShowOrders","Order")
 <br />
 @if (Session["order"] != null && (Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>).Count != 0)
 {
@@ -13,16 +14,16 @@
     <table>
         <tr>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Name
+                Nazwa
             </th>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Description
+                Opis
             </th>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Quantity
+                Ilość
             </th>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Price
+                Cena
             </th>
             <th style="min-width:100px;padding:0 10px 0 10px"></th>
         </tr>        
@@ -36,18 +37,18 @@
                 <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductDescription</td>
                 <td style="padding:0 10px 0 10px">@PairProductQuantity.Value.ToString()</td>
                 <td style="padding:0 10px 0 10px">@(price.ToString() + " PLN")</td>
-                <td style="padding:0 10px 0 10px">@Html.ActionLink("Remove", "RemoveProductFromCart", "Order", new { productID = PairProductQuantity.Key.ProductId }, null)</td>
+                <td style="padding:0 10px 0 10px">@Html.ActionLink("Usuń", "RemoveProductFromCart", "Order", new { productID = PairProductQuantity.Key.ProductId }, null)</td>
             </tr>
         }
         <tr>
             <td></td>
             <td></td>
-            <td style="text-align:right;padding:0 10px 0 10px">Sum: </td>
+            <td style="text-align:right;padding:0 10px 0 10px">Suma: </td>
             <td style="padding:0 10px 0 10px">@overallPrice PLN</td>
         </tr>
     </table>
-    <div>@Html.ActionLink("Continue shopping","Index","Products")</div>
-    <div>@Html.ActionLink("Checkout", "PlaceOrder","Order")</div>
+    <div>@Html.ActionLink("Kontynuuj zakupy","Index","Products")</div>
+    <div>@Html.ActionLink("Zakończ zamówienie", "PlaceOrder","Order")</div>
 }
 else
 {

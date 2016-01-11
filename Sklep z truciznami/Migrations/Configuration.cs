@@ -5,15 +5,15 @@ namespace Sklep_z_truciznami.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Sklep_z_truciznami.Models.Product2Context>
+    internal sealed class Configuration : DbMigrationsConfiguration<Sklep_z_truciznami.Models.Order2Context>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Sklep_z_truciznami.Models.Product2Context";
+            ContextKey = "Sklep_z_truciznami.Models.Order2Context";
         }
 
-        protected override void Seed(Sklep_z_truciznami.Models.Product2Context context)
+        protected override void Seed(Sklep_z_truciznami.Models.Order2Context context)
         {
             //  This method will be called after migrating to the latest version.
 

@@ -129,8 +129,9 @@ namespace Sklep_z_truciznami.Controllers
                 {
                     Order order = new Order();
                     order.ClientId = User.Identity.Name;
+                    order.ProductName = orderPair.Key.ProductName;
                     order.OrderDate = DateTime.Now;
-                    order.AnswerDate = DateTime.Now;
+                    order.AnswerDate = null;
                     order.ProductId = orderPair.Key.ProductId;
                     order.Quantity = orderPair.Value;
                     order.Status = OrderStatus.Ordered;
@@ -142,7 +143,7 @@ namespace Sklep_z_truciznami.Controllers
             }
             else
             {
-                ViewBag.message = "Cart is empty, you cannot place an order at this time.";
+                ViewBag.message = "Koszyk jest pusty, nie możesz teraz złożyć zamówienia";
                 return View("Error");
             }
             return RedirectToAction("ShowOrders");
@@ -208,17 +209,17 @@ namespace Sklep_z_truciznami.Controllers
                             ProductDb.SaveChanges();
 
                             order.Status = OrderStatus.Realized;
-                            ViewBag.Message = "Order realized";
+                            ViewBag.Message = "Zamówienie zrealizowane";
                         }
                         else
                         {
-                            ViewBag.Message = "There is not enough products to realize order";
+                            ViewBag.Message = "Niewystarczająca ilość produktów do realizacji zamówienia";
                         }
                     }
                     else
                     {
                         order.Status = OrderStatus.Rejected;
-                        ViewBag.Message = "Status changed to Rejected";
+                        ViewBag.Message = "Zmieniono status na 'Odrzucone'";
                     }
 
                     order.AnswerDate = DateTime.Now;
@@ -234,7 +235,7 @@ namespace Sklep_z_truciznami.Controllers
                     order.AnswerDate = DateTime.Now;
                     OrderDb.Entry(order).State = EntityState.Modified;
                     OrderDb.SaveChanges();
-                    ViewBag.Message = "Order cancelled";
+                    ViewBag.Message = "Zamówienie anulowane";
                 }
             }
 

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "PlaceOrder";
+    ViewBag.Title = "Złóż zamówienie";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,16 +12,16 @@
     <table>
         <tr>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Name
+                Nazwa
             </th>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Description
+                Opis
             </th>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Quantity
+                Ilość
             </th>
             <th style="min-width:100px;padding:0 10px 0 10px">
-                Price
+                Cena
             </th>
         </tr>
 
@@ -46,7 +46,7 @@
     <div>@using (Html.BeginForm("PlaceOrder","Order"))
          {
              @Html.Hidden("acceptance",true)
-          <input type="submit" value="submit" />  
+          <input type="submit" value="Zatwierdź" />  
          } </div>
 }
 else

@@ -45,20 +45,27 @@ namespace Sklep_z_truciznami.Models
         public string ClientId { get; set; }
 
         [Required]
-        public int ProductId { get; set; }
+        public int ProductId { get; set; } //tego nie chcemy w widoku
+
+        [Display(Name = "Nazwa produktu")]
+        public string ProductName { get; set; }
 
         /// <summary>
         /// Zamawiana ilość
         /// </summary>
         [Required]
+        [Display(Name = "Ilość")]
         public int Quantity { get; set; } 
 
         [Required]
+        [Display(Name = "Data zamówienia")]
         public DateTime OrderDate { get; set; }
 
-        public DateTime AnswerDate { get; set; }
+        [Display(Name = "Data realizacji")]
+        public DateTime? AnswerDate { get; set; }
 
         [Required]
+        [Display(Name = "Status zamówienia")]
         public OrderStatus Status { get; set; }
 
 

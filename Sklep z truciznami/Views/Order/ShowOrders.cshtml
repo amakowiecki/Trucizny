@@ -1,7 +1,7 @@
 ﻿@model List<Sklep_z_truciznami.Models.Order>
 
 @{
-    ViewBag.Title = "ShowOrders";
+    ViewBag.Title = "Zamówienia";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,7 +11,7 @@
 </div>
 @{if (Model == null || Model.Count==0)
 {
-    <div>List of orders is empty</div>
+    <div>Brak zamówień</div>
 }
   else
   {
@@ -19,10 +19,10 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model[0].ClientId)
+                    Użytkownik
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model[0].ProductId)
+                    Nazwa produktu
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model[0].Quantity)
@@ -42,13 +42,14 @@
         <tbody>
 
             @foreach (var item in Model)
-            {
+            {                
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ClientId)
+                        @if (User.IsInRole("Owner")) {@Html.ActionLink(item.ClientId, "Details", "Account", new { userName = item.ClientId }, null) }
+                        else{@Html.DisplayFor(modelItem => item.ClientId) }                        
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ProductId)
+                        @Html.DisplayFor(modelItem => item.ProductName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Quantity)
@@ -60,7 +61,7 @@
                         @Html.DisplayFor(modelItem => item.AnswerDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Status)
+                        @EnumsHelper.GetName(item.Status)
                     </td>
                     <td>
                         @{if (item.Status == Sklep_z_truciznami.Models.OrderStatus.Ordered)
@@ -68,13 +69,13 @@
                             if (User.IsInRole("Owner"))
                             {
 
-                                @Html.ActionLink("Accept order", "HandleOrder", "Order", new { orderID = item.OrderId, acceptance = true }, null)<span> | </span>
-                                @Html.ActionLink("Reject order", "HandleOrder", "Order", new { orderID = item.OrderId, acceptance = false }, null)
+                                @Html.ActionLink("Zaakceptuj zamówienie", "HandleOrder", "Order", new { orderID = item.OrderId, acceptance = true }, null)<span> | </span>
+                                @Html.ActionLink("Odrzuć zamówienie", "HandleOrder", "Order", new { orderID = item.OrderId, acceptance = false }, null)
 
                             }
                             else
                             {
-                                @Html.ActionLink("Cancel order", "HandleOrder", "Order", new { orderID = item.OrderId, acceptance = false }, null)
+                                @Html.ActionLink("Anuluj zamówienie", "HandleOrder", "Order", new { orderID = item.OrderId, acceptance = false }, null)
                             }
                         }
                         }
