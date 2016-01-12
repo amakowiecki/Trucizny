@@ -6,7 +6,16 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @{
+        int orderSum = 0;
+        if (Session["order"] != null)
+        {
+            foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+            {
+                orderSum += item.Value;
+            }
+        }
+    }
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -39,11 +48,12 @@
                     <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink(" ", "ShowCart", "Order",null, new {@class="glyphicon glyphicon-shopping-cart" })</li>                   
+
                 </ul>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Cart
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        Koszyk (@orderSum.ToString())
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li>@Html.Partial("PartialCart")</li>

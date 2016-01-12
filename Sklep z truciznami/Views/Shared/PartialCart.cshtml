@@ -11,28 +11,32 @@
                                 <li id="item" style="display:flex">
                                     <div id="img">
                                         <div id="">
-                                            <a href="#" title="@item.Key.ProductName" rel="nofollow" ><img style="height:50px" src="@Url.Action("Show", "Products", new { id = @item.Key.ProductId } )" alt="@item.Key.ProductName"></a>
+                                            <a href="#" title="@item.Key.ProductName" rel="nofollow" ><img style="height:70px; width:90px; background-position:center; padding-left:10px;padding-right:10px "  src="@Url.Action("Show", "Products", new { id = @item.Key.ProductId } )" alt="@item.Key.ProductName"></a>
                                         </div>
                                     </div>
                                     <div id="info">
-                                        <p id="name">
-                                            <span id="quantity"><b>@item.Value</b> <span style="color:#808080">x</span> </span>
-                                            <a href="#" id="title" title="@item.Key.ProductName">
+                                        <p id="name" style="width:150px">
+                                            <span id="quantity"><b>@item.Value</b> <span style="color:#808080">x</span> </span>                                            
                                                 <span id="Title">
-                                                    @item.Key.ProductName
+                                                    @Html.ActionLink(item.Key.ProductName, "Details", "Products", new { id = item.Key.ProductId }, null)
                                                 </span>
-                                            </a>
                                         </p>
-                                        <p id="category">@item.Key.Category</p>
+                                        <p id="category">@EnumsHelper.GetName(item.Key.Category)</p>
                                     </div>
+                                </li>
+                                <li id="item2" style="display:flex">
+                                    <div style="height:10px"></div>
                                 </li>
                             }
                         }
-                    }
+}
                     
                 </ul>
             </div>
-            @Html.ActionLink("Przejdź do koszyka", "ShowCart", "Order")
+            <div style="text-align:center">
+                @Html.ActionLink("Przejdź do koszyka", "ShowCart", "Order")
+            </div>
+            
         </div>
 
     </div>
