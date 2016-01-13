@@ -1,0 +1,56 @@
+﻿@model List<Sklep_z_truciznami.Models.Product>
+@{
+    ViewBag.Title = "Produkty";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery.min.js"></script>
+<div style="height:20px"></div>
+<div>
+    @using (Html.BeginForm("Search", "Products", FormMethod.Post, new {id="searchForm" }))
+    {        
+        @Html.TextBox("searchPhrase", null, new { id = "SearchPhrase", onfocus = "this.value = this.value;" })
+    <button id="searchButton">Szukaj</button>
+    <br />        
+        @Html.CheckBox("searchInDescription")    
+        @Html.Label("Szukaj też w opisach")
+    }
+    
+</div>
+<div id="ListOfProducts">  
+    @Html.Partial("PartialListOfProducts", Model)
+</div>
+<script>
+    window.onload = function () {
+        textBox = document.getElementById("SearchPhrase").focus();
+    };    
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                $.ajax({
+                    url: "Search",
+                    type: "POST",
+                    data: $("form").serialize(),
+                    success: function (result) {
+                        $("#ListOfProducts").html(result);
+                    }
+                });
+                return false;
+            }
+        });
+    });
+    $("#searchButton").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "Search",
+            type: "POST",
+            data: $("form").serialize(),
+            success: function (result) {
+                $("#ListOfProducts").html(result);
+            }
+        });
+    });
+</script>
