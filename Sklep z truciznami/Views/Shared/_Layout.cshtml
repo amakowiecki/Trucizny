@@ -7,16 +7,7 @@
     <link rel="shortcut icon" type="image/ico" href="~/icon.ico">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @{
-        int orderSum = 0;
-        if (Session["order"] != null)
-        {
-            foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
-            {
-                orderSum += item.Value;
-            }
-        }
-    }
+    <script src="~/Scripts/jquery.min.js"></script>
 </head>
 <body>
     @*<div class="navbar navbar-inverse navbar-fixed-top">
@@ -49,15 +40,16 @@
                     <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("produkty", "ListOfProducts", "Products")</li>
 
                 </ul>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
-                        Koszyk (@orderSum.ToString())
+                        Koszyk (<span id="liczebnoscKoszyka">0</span>)
                     </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>@Html.Partial("PartialCart")</li>
+                    <ul class="dropdown-menu"  role="menu">
+                        <li id="cart">@Html.Partial("PartialCart")</li>
                     </ul>
                 </div>
                 @Html.Partial("_LoginPartial")
@@ -99,7 +91,7 @@
 
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="@Url.Action("Index", "Products", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"> Produkty <span class="caret"></span></a>
+                        <a href="@Url.Action("ListOfProducts", "Products", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"> Produkty <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             @foreach (var item in Enum.GetNames(typeof(Sklep_z_truciznami.Models.Category)))
                             {
@@ -122,7 +114,7 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="@Url.Action("ShowCart", "Order", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"><span class="glyphicon glyphicon-shopping-cart"></span> Koszyk (@orderSum.ToString())</a>
+                        <a href="@Url.Action("ShowCart", "Order", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"><span class="glyphicon glyphicon-shopping-cart"></span> Koszyk (<span id="liczebnoscKoszyka">0</span>)</a>
                         <ul class="dropdown-menu">
                             <li>@Html.Partial("PartialCart")</li>
                         </ul>
@@ -147,3 +139,19 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(document).ready(function func() {
+        @{
+            int orderSum = 0;
+            if (Session["order"] != null)
+            {
+                foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+                {
+                    orderSum += item.Value;
+                }
+            }
+    }
+        $("#liczebnoscKoszyka").replaceWith('<span id="liczebnoscKoszyka">'+@orderSum+'</span>');
+    })
+</script>

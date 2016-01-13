@@ -1,8 +1,8 @@
-﻿<div class="productListContainer" style="display: block;">
+﻿<div id="cart" class="productListContainer" style="display: block;">
     <div id="products">
         <div id="productListOnHover">
             <div id="productsViewport">
-                <ul style="padding-left:3px; padding-top:7px" id=" itemlist">
+                <ul style="padding-left:3px; padding-top:7px" id="itemlist">
                     @{
                         if (Session["order"] != null)
                         {
@@ -36,8 +36,24 @@
             <div style="text-align:center">
                 @Html.ActionLink("Przejdź do koszyka", "ShowCart", "Order")
             </div>
-            
+
         </div>
 
     </div>
 </div>
+
+<script>
+    $(document).ready(function func() {
+        @{
+            int orderSum = 0;
+            if (Session["order"] != null)
+            {
+                foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+                {
+                    orderSum += item.Value;
+                }
+            }
+    }
+        $("#liczebnoscKoszyka").replaceWith('<span id="liczebnoscKoszyka">'+@orderSum+'</span>');
+    })
+</script>

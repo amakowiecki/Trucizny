@@ -53,7 +53,7 @@ namespace Sklep_z_truciznami.Controllers
             Session[orderLabel] = order;
 
             CheckCartForInvalidQuantity();
-
+            
             return RedirectToAction("ShowCart");
         }
 

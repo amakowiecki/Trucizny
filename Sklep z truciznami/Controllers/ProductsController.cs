@@ -18,6 +18,7 @@ namespace Sklep_z_truciznami.Controllers
         private Product2Context ProductDb = new Product2Context();
         private CommentContext CommentDb = new CommentContext();
         private Rating2Context RatingDb = new Rating2Context();
+        string orderLabel = "order";
 
         public ActionResult Index()
         {
@@ -58,7 +59,7 @@ namespace Sklep_z_truciznami.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddComment(int id, [Bind(Include = "CommentId,UserId,ProductId,CommentDate,CommentContent,IsVisible")] Comment comment)
         {
-            if (comment!= null && comment.CommentContent!= null &&comment.CommentContent != "")
+            if (comment != null && comment.CommentContent != null && comment.CommentContent != "")
             {
                 Comment Comment = new Models.Comment(User.Identity.Name, id, comment.CommentContent);
 
@@ -178,7 +179,7 @@ namespace Sklep_z_truciznami.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = ProductDb.Products.Find(id);  
+            Product product = ProductDb.Products.Find(id);
             ProductDb.Products.Remove(product);
             ProductDb.SaveChanges();
             return RedirectToAction("Index");
@@ -192,5 +193,139 @@ namespace Sklep_z_truciznami.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult ListOfProducts()
+        {
+            return View(ProductDb.Products.ToList());
+        }
+
+        public ActionResult Search(string searchPhrase, bool searchInDescription)
+        {
+            List<Product> productsList;
+            if (searchPhrase != "")
+            {
+                if (searchInDescription) {
+                productsList = ProductDb.Products
+                    .Where(x => (
+                       x.ProductName.ToLower().Contains(searchPhrase.ToLower())
+                    || x.Tags.ToLower().Contains(searchPhrase.ToLower())
+                    || x.ProductDescription.ToLower().Contains(searchPhrase.ToLower())
+                    ))
+                    .ToList();
+            }
+                else
+                {                    
+                productsList = ProductDb.Products
+                    .Where(x => (
+                       x.ProductName.ToLower().Contains(searchPhrase.ToLower())
+                    || x.Tags.ToLower().Contains(searchPhrase.ToLower())
+                    ))
+                    .ToList();
+                }
+            }
+            else
+            {
+                productsList = ProductDb.Products.ToList();
+            }
+
+            Sort(productsList);
+
+            return PartialView("PartialListOfProducts", productsList);
+        }
+
+        public void Sort(List<Product> productsList) 
+        {
+
+        }
+        #region ZdublowaneFunkcjeDoKoszyka
+        public ActionResult AddProductToCart(int productID, int quantity)
+        {
+            Session.Timeout = 30;
+
+            Dictionary<Product, int> order;
+
+            if (Session[orderLabel] != null)
+            {
+                order = Session[orderLabel] as Dictionary<Product, int>;
+            }
+            else
+            {
+                order = new Dictionary<Product, int>();
+            }
+
+            Product product = ProductDb.Products.Find(productID);
+
+            bool found = false;
+            if (order.Count > 0)
+            {
+                foreach (var item in order)
+                {
+                    if (item.Key.ProductId == productID)
+                    {
+                        order[item.Key] = Math.Min(item.Value + quantity, product.Quantity);
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found)
+            {
+                if (quantity > 0) { order.Add(product, Math.Min(product.Quantity, quantity)); }
+            }
+
+            Session[orderLabel] = order;
+
+            CheckCartForInvalidQuantity();
+
+            return PartialView("PartialCart");
+        }
+
+        public ActionResult RemoveProductFromCart(int productID)
+        {
+            if (Session[orderLabel] == null) { return View("Error"); }
+
+            Dictionary<Product, int> order = Session[orderLabel] as Dictionary<Product, int>;
+
+            Product productToRemove = order.FirstOrDefault(x => x.Key.ProductId == productID).Key;
+
+            if (productToRemove != null)
+            {
+                order.Remove(productToRemove);
+            }
+
+            Session[orderLabel] = order;
+
+            CheckCartForInvalidQuantity();
+
+            return View("PartialCart");
+        }
+
+        public ActionResult EditProductInCart(int productID, int newQuantity)
+        {
+            RemoveProductFromCart(productID);
+            AddProductToCart(productID, newQuantity);
+            CheckCartForInvalidQuantity();
+            return View("PartialCart");
+        }
+
+        // CheckCartForInvalidQuantity
+        public void CheckCartForInvalidQuantity()
+        {
+            Dictionary<Product, int> order;
+
+            if (Session[orderLabel] != null)
+            {
+                order = Session[orderLabel] as Dictionary<Product, int>;
+                foreach (var orderPair in order)
+                {
+                    if (orderPair.Value <= 0)
+                    {
+                        order.Remove(orderPair.Key);
+                    }
+                }
+                Session[orderLabel] = order;
+            }
+        }
+        #endregion
     }
 }
