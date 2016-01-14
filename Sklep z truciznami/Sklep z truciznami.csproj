@@ -201,10 +201,21 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logos\1.png" />
+    <Content Include="Content\images\logos\2.png" />
+    <Content Include="Content\images\logos\3.png" />
+    <Content Include="Content\images\logos\4.png" />
+    <Content Include="Content\images\logos\5.png" />
+    <Content Include="Content\images\logos\6.png" />
+    <Content Include="Content\images\logos\7.png" />
+    <Content Include="Content\images\slider\slide01.jpg" />
+    <Content Include="Content\images\slider\slide02.jpg" />
+    <Content Include="Content\images\slider\slide03.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="icon.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\MyASP.NET.pubxml" />
@@ -213,6 +224,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-personalized-1.5.2.packed.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -267,6 +280,8 @@
     <Content Include="Views\Order\ShowOrders.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Shared\PartialCart.cshtml" />
+    <Content Include="Views\Products\ListOfProducts.cshtml" />
+    <Content Include="Views\Products\PartialListOfProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -290,6 +305,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

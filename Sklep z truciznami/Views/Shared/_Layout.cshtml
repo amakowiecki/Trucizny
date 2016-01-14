@@ -3,22 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - trucizny.ga, najlepszy sklep z truciznami w Internecie</title>
+    <link rel="shortcut icon" type="image/ico" href="~/icon.ico">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @{
-        int orderSum = 0;
-        if (Session["order"] != null)
-        {
-            foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
-            {
-                orderSum += item.Value;
-            }
-        }
-    }
+    <script src="~/Scripts/jquery.min.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -48,9 +40,69 @@
                     <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("produkty", "ListOfProducts", "Products")</li>
 
                 </ul>
                 <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        Koszyk (<span id="liczebnoscKoszyka">0</span>)
+                    </button>
+                    <ul class="dropdown-menu"  role="menu">
+                        <li id="cart">@Html.Partial("PartialCart")</li>
+                    </ul>
+                </div>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>*@
+
+    <nav class="navbar navbar-default navbar-fixed-top" style="border-radius:0px !important;">
+        <div class="container container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Nawigacja</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new {@class = "navbar-brand"})
+            </div>
+
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <form class="navbar-form navbar-left" role="search">
+                    @*<div class="form-group">
+                        <input type="text" class="form-control" placeholder="Czego szukasz?">
+                    </div>
+                    <button type="submit" class="btn btn-default" style="display:none"></button>*@
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Czego szukasz?">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div><!-- /input-group -->
+
+                </form>
+
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="@Url.Action("ListOfProducts", "Products", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"> Produkty <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @foreach (var item in Enum.GetNames(typeof(Sklep_z_truciznami.Models.Category)))
+                            {
+                                <li><a href="#">@Sklep_z_truciznami.Models.Product.GetCategoryDisplayName(item)</a></li>
+                            }
+                        </ul>
+                    </li>
+
+                </ul>
+
+                @*<div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         Koszyk (@orderSum.ToString())
@@ -58,16 +110,27 @@
                     <ul class="dropdown-menu" role="menu">
                         <li>@Html.Partial("PartialCart")</li>
                     </ul>
-                </div>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
+                </div>*@
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="@Url.Action("ShowCart", "Order", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"><span class="glyphicon glyphicon-shopping-cart"></span> Koszyk (<span id="liczebnoscKoszyka">0</span>)</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.Partial("PartialCart")</li>
+                        </ul>
+                    </li>
+
+                    <li>@Html.Partial("_LoginPartial")</li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - trucizny.ga | @Html.ActionLink("O nas", "About", "Home") | @Html.ActionLink("Kontakt", "Contact", "Home")</p>
         </footer>
     </div>
 
@@ -76,3 +139,19 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(document).ready(function func() {
+        @{
+            int orderSum = 0;
+            if (Session["order"] != null)
+            {
+                foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+                {
+                    orderSum += item.Value;
+                }
+            }
+    }
+        $("#liczebnoscKoszyka").replaceWith('<span id="liczebnoscKoszyka">'+@orderSum+'</span>');
+    })
+</script>

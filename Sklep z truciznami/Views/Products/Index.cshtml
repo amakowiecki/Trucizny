@@ -81,7 +81,9 @@
             @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ProductId }) |
             @Html.ActionLink("Add to cart", "AddProductToCart", "Order", new { productID =item.ProductId, quantity=1},null)
-        </td>
+            @Ajax.ActionLink("ADD", "AddProductToCart", "Order", new { productID = item.ProductId, quantity = 1 }, new AjaxOptions() { UpdateTargetId = "update" })
+            <span id="update"></span>
+</td>
     </tr>
 }
 

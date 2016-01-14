@@ -1,25 +1,25 @@
-﻿<div class="productListContainer" style="display: block;">
+﻿<div id="cart" class="productListContainer" style="display: block;">
     <div id="products">
         <div id="productListOnHover">
-            <div id="productsViewport" >
-                <ul id="itemList" >
+            <div id="productsViewport">
+                <ul style="padding-left:3px; padding-top:7px" id="itemlist">
                     @{
                         if (Session["order"] != null)
                         {
                             foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
                             {
-                                <li id="item" style="display:flex">
+                                <li id="item" style="display:flex;">
                                     <div id="img">
                                         <div id="">
-                                            <a href="#" title="@item.Key.ProductName" rel="nofollow" ><img style="height:70px; width:90px; background-position:center; padding-left:10px;padding-right:10px "  src="@Url.Action("Show", "Products", new { id = @item.Key.ProductId } )" alt="@item.Key.ProductName"></a>
+                                            <a href="#" title="@item.Key.ProductName" rel="nofollow"><img style="height:70px; width:90px; background-position:center; padding-left:10px;padding-right:10px " src="@Url.Action("Show", "Products", new { id = @item.Key.ProductId } )" alt="@item.Key.ProductName"></a>
                                         </div>
                                     </div>
                                     <div id="info">
                                         <p id="name" style="width:150px">
-                                            <span id="quantity"><b>@item.Value</b> <span style="color:#808080">x</span> </span>                                            
-                                                <span id="Title">
-                                                    @Html.ActionLink(item.Key.ProductName, "Details", "Products", new { id = item.Key.ProductId }, null)
-                                                </span>
+                                            <span id="quantity"><b>@item.Value</b> <span style="color:#808080">x</span> </span>
+                                            <span id="Title">
+                                                @Html.ActionLink(item.Key.ProductName, "Details", "Products", new { id = item.Key.ProductId }, null)
+                                            </span>
                                         </p>
                                         <p id="category">@EnumsHelper.GetName(item.Key.Category)</p>
                                     </div>
@@ -29,15 +29,31 @@
                                 </li>
                             }
                         }
-}
-                    
+                    }
+
                 </ul>
             </div>
             <div style="text-align:center">
                 @Html.ActionLink("Przejdź do koszyka", "ShowCart", "Order")
             </div>
-            
+
         </div>
 
     </div>
 </div>
+
+<script>
+    $(document).ready(function func() {
+        @{
+            int orderSum = 0;
+            if (Session["order"] != null)
+            {
+                foreach (var item in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+                {
+                    orderSum += item.Value;
+                }
+            }
+    }
+        $("#liczebnoscKoszyka").replaceWith('<span id="liczebnoscKoszyka">'+@orderSum+'</span>');
+    })
+</script>
