@@ -238,17 +238,20 @@ namespace Sklep_z_truciznami.Controllers
             else
             {
                 productsList = ProductDb.Products.ToList();
-            }
-
-            Sort(productsList);
+            }            
 
             return PartialView("PartialListOfProducts", ConvertProductsToVM(productsList));
         }
-
-        public void Sort(List<Product> productsList)
+        
+        [Authorize(Roles = "Owner")]
+        public ActionResult DeleteComment(int commentID, int productID)
         {
-
+            var comm = CommentDb.Comments.Find(commentID);
+            comm.IsVisible = false;
+            CommentDb.SaveChanges();
+            return RedirectToAction("Details", new { id = productID});
         }
+
         #region ZdublowaneFunkcjeDoKoszyka
         public ActionResult AddProductToCart(int productID, int quantity)
         {

@@ -155,10 +155,17 @@
         <div class="dl-horizontal"></div>
 
         <ul>
-            @foreach (var coment in @Model.Comments)
-            {
-                <li>@coment.CommentContent</li>
-            }
+                @foreach (var coment in Model.Comments)
+                {
+                    if (User.IsInRole("Owner") && coment.IsVisible)
+                    {                     
+                        <li>@coment.CommentContent (@Html.ActionLink("Usuń", "DeleteComment", new { commentID = coment.CommentId, productID = Model.Product.ProductId }))</li>
+                    }
+                    else
+                    {
+                        <li>@coment.CommentContent</li>
+                    }
+                }
         </ul>
     </div>
 
