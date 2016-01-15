@@ -26,6 +26,7 @@ namespace Sklep_z_truciznami.Models
 
         [Required(ErrorMessage = "Wypełnij treść komentarza")]
         [Display(Name = "Treść Komentarza")]
+        [DataType(DataType.MultilineText)]
         public string CommentContent { get; set; }
 
         /// <summary>

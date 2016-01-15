@@ -201,14 +201,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\default-avatar.gif" />
     <Content Include="Content\images\logo.png" />
-    <Content Include="Content\images\logos\1.png" />
-    <Content Include="Content\images\logos\2.png" />
-    <Content Include="Content\images\logos\3.png" />
-    <Content Include="Content\images\logos\4.png" />
-    <Content Include="Content\images\logos\5.png" />
-    <Content Include="Content\images\logos\6.png" />
-    <Content Include="Content\images\logos\7.png" />
     <Content Include="Content\images\slider\slide01.jpg" />
     <Content Include="Content\images\slider\slide02.jpg" />
     <Content Include="Content\images\slider\slide03.jpg" />
@@ -224,6 +218,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-eu-cookie-law-popup.js" />
     <Content Include="Scripts\jquery-ui-personalized-1.5.2.packed.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />

@@ -5,186 +5,113 @@
     ViewBag.Title = "Szczegóły produktu";
 }
 
-<h2>Details</h2>
+<h2 style="margin-top:30px">@Html.DisplayFor(model => model.Product.ProductName)</h2>
 
 <div>
-    <h4>Product</h4>
     <hr />
-    <dl class="dl-horizontal">
-        @*<dt>
-                @Html.DisplayNameFor(model => model.Product.SupplierId)
-            </dt>
+    <div class="row">
+        <div class="col-sm-5 col-md-5" style="margin-right:15px">
+            <img class="thumbnail" src=@Url.Action("Show", "Products", new { id = @Model.Product.ProductId } ) alt="product" />
+        </div>
+        <div class="row col-sm-6 col-md-6" style="margin-left:15px;padding-left:0">
+            <div>
+                <ul class="list-group" style="width:60%">
+                    <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Tags):</b> @Html.DisplayFor(model => model.Product.Tags)</li>
+                    <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Quantity):</b> @Html.DisplayFor(model => model.Product.Quantity)</li>
+                    <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Category):</b> @Html.DisplayFor(model => model.Product.Category)</li>
+                    <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Price):</b> @Html.DisplayFor(model => model.Product.Price) zł</li>
+                    <li class="list-group-item">
+                        <span class="badge">
+                            @if (Model.Product.RatingNumber != 0)
+                            {
+                                @Html.Display((Model.Product.RatingSum / Model.Product.RatingNumber).ToString())
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Product.RatingNumber)
+                            }
 
-            <dd>
-                @Html.DisplayFor(model => model.Product.SupplierId)
-            </dd>*@
+                        </span>
+                        <b>Średnia ocena:</b>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">@Html.DisplayFor(model => model.Product.RatingNumber)</span>
+                        <b>Ilość ocen:</b>
+                    </li>
+                    <li class="list-group-item" style="height:51px">
+                        @using (Html.BeginForm("AddRating", "Products", new { id = @Model.Product.ProductId }, FormMethod.Post, null))
+                        {
+                            @Html.AntiForgeryToken()
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.ProductName)
-        </dt>
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group" style="padding-left:15px">
 
-        <dd>
-            @Html.DisplayFor(model => model.Product.ProductName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.ProductDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.ProductDescription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.Quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.Quantity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.AddDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.AddDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.Category)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.Category)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.Price)
-        </dd>
-        @using (@Html.BeginForm("AddProductToCart", "Order"))
-        {
-            @Html.Hidden("productID", Model.Product.ProductId);
-            @Html.Editor("quantity", new { min = 0, max = Model.Product.Quantity });
-            <input type="submit" value="Add product" class="btn btn-default" />
-        }
-        <br />
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.Tags)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.Tags)
-        </dd>
-
-        @*<dt>
-                @Html.DisplayNameFor(model => model.Product.Photo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Product.Photo)
-            </dd>*@
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.RatingSum)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.RatingSum)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.RatingNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Product.RatingNumber)
-        </dd>
-    </dl>
-
-    <div>
-        <img src=@Url.Action("Show", "Products", new { id = @Model.Product.ProductId } ) />
-    </div>
-
-    @using (Html.BeginForm("AddRating", "Products", new { id = @Model.Product.ProductId }, FormMethod.Post, null))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>Dodaj Ocenę</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Rating.Rate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Rating.Rate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Rating.Rate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*@Html.HiddenFor(model => model.Product.AddDate)
-            @Html.HiddenFor(model => model.Product.Category)
-            @Html.HiddenFor(model => model.Product.PhotoFile)
-            @Html.HiddenFor(model => model.Product.PhotoImageFileName)
-            @Html.HiddenFor(model => model.Product.PhotoImageMimeType)
-            @Html.HiddenFor(model => model.Product.Price)
-            @Html.HiddenFor(model => model.Product.ProductDescription)
-            @Html.HiddenFor(model => model.Product.ProductId)
-            @Html.HiddenFor(model => model.Product.ProductName)
-            @Html.HiddenFor(model => model.Product.Quantity)
-            @Html.HiddenFor(model => model.Product.RatingSum)
-            @Html.HiddenFor(model => model.Product.SupplierId)
-            @Html.HiddenFor(model => model.Product.Tags)*@
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Dodaj Ocenę" class="btn btn-default" />
+                                    <div>
+                                        @Html.ValidationMessageFor(model => model.Rating.Rate, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.Rating.Rate, new { htmlAttributes = new { @class = "form-control", @style = "height:30px;width:70px;vertical-align:top;display:inline-block;" } })
+                                        <button type="submit" class="btn btn-primary" style="display:inline-block;">
+                                            <span>Oceń</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </li>
+                </ul>
+                <div style="padding-left:3px;padding-top:10px;padding-bottom:20px;">
+                    @using (@Html.BeginForm("AddProductToCart", "Order"))
+                    {
+                        @Html.Hidden("productID", Model.Product.ProductId)
+                        <span>@Html.Editor("quantity", new { min = 0, max = Model.Product.Quantity, @style = "height:width:30px;width:30px" })</span>
+                        <span>szt.</span>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-usd"></span>
+                        </button>
+                    }
                 </div>
             </div>
         </div>
-    }
-
-
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @Html.DisplayFor(model => model.Product.ProductDescription)
+        </div>
+    </div>
     <div>
         <h4>Komentarze</h4>
         <hr />
-        <div class="dl-horizontal"></div>
-
-        <ul>
+        <ul style="list-style-type: none;margin-top:40px">
             @foreach (var coment in @Model.Comments)
             {
-                <li>@coment.CommentContent</li>
+
+                <li style="display:inline-block;margin-left:-40px;"><img src="~/Content/images/default-avatar.gif" alt="default-avatar" height="55" width="55" style="margin-bottom:1px"><span class="well" style="width:100%;margin-left:10px"><u>@coment.CommentDate:</u> @coment.CommentContent</span></li>
             }
         </ul>
+        @using (Html.BeginForm("AddComment", "Products", new { id = @Model.Product.ProductId }, FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div style="height:30px;margin-top:15px;padding-left:14px">
+                        <b> Dodaj komentarz:</b>
+                    </div>
+                    <div style="padding-left:14px">
+                        @Html.EditorFor(model => model.Comment.CommentContent, new { htmlAttributes = new { @class = "form-control", @style = "height:150px;" } })
+                        @Html.ValidationMessageFor(model => model.Comment.CommentContent, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10" style="text-align:left">
+                        <input type="submit" value="Dodaj komentarz" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-
-    @using (Html.BeginForm("AddComment", "Products", new { id = @Model.Product.ProductId }, FormMethod.Post, null))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>Dodaj Komentarz</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Comment.CommentContent, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Comment.CommentContent, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Comment.CommentContent, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Dodaj Komentarz" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Product.ProductId }) |
