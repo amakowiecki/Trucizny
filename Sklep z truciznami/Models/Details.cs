@@ -33,6 +33,11 @@ namespace Sklep_z_truciznami.Models
                             where x.ProductId == Product.ProductId
                             select x).ToList();
 
+            foreach (var comment in comments)
+            {
+                if (comment.IsVisible == false) comment.CommentContent = "Komentarz został usunięty.";
+            }
+
             Comments = comments;
         }
     }
