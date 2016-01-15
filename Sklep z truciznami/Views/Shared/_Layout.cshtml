@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="YvXa8OYrK-juPcWDNUffxw0ygCXXtV0O0I9r1el60RM" />
+    <meta name="description" content="Sklep z truciznami. Wysyłkowa sprzedaż substancji szkodliwych i trujących" />
+    <meta name="keywords" content="sklep trucizny trujące szkodliwe sprzedaż wysyłka" />
     <title>@ViewBag.Title - trucizny.ga, najlepszy sklep z truciznami w Internecie</title>
     <link rel="shortcut icon" type="image/ico" href="~/icon.ico">
     @Styles.Render("~/Content/css")
@@ -105,7 +108,12 @@
                             }
                         </ul>
                     </li>
-
+                    @if(User.IsInRole("Owner"))
+                    {
+                    <li class="dropdown">
+                        @Html.ActionLink("Zarządzaj użytkownikami", "ManageUsers", "Manage", null, new { @class = "dropdown-toggle", role = "button" })
+                    </li>
+                    }
                 </ul>
 
                 @*<div class="btn-group">

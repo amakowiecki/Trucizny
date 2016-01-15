@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Sklep_z_truciznami.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using Sklep_z_truciznami.ViewModels;
 
 namespace Sklep_z_truciznami.Controllers
 {
@@ -196,7 +197,17 @@ namespace Sklep_z_truciznami.Controllers
 
         public ActionResult ListOfProducts()
         {
-            return View(ProductDb.Products.ToList());
+            return View(ConvertProductsToVM(ProductDb.Products.ToList()));
+        }
+
+        public List<ProductVM> ConvertProductsToVM(List<Product> productList)
+        {
+            List<ProductVM> outputList = new List<ProductVM>();
+            foreach (var product in productList)
+            {
+                outputList.Add(ProductVM.ConvertToVM(product));
+            }
+            return outputList;
         }
 
         public ActionResult Search(string searchPhrase, bool searchInDescription)
@@ -204,39 +215,43 @@ namespace Sklep_z_truciznami.Controllers
             List<Product> productsList;
             if (searchPhrase != "")
             {
-                if (searchInDescription) {
-                productsList = ProductDb.Products
-                    .Where(x => (
-                       x.ProductName.ToLower().Contains(searchPhrase.ToLower())
-                    || x.Tags.ToLower().Contains(searchPhrase.ToLower())
-                    || x.ProductDescription.ToLower().Contains(searchPhrase.ToLower())
-                    ))
-                    .ToList();
-            }
+                if (searchInDescription)
+                {
+                    productsList = ProductDb.Products
+                        .Where(x => (
+                           x.ProductName.ToLower().Contains(searchPhrase.ToLower())
+                        || x.Tags.ToLower().Contains(searchPhrase.ToLower())
+                        || x.ProductDescription.ToLower().Contains(searchPhrase.ToLower())
+                        ))
+                        .ToList();
+                }
                 else
-                {                    
-                productsList = ProductDb.Products
-                    .Where(x => (
-                       x.ProductName.ToLower().Contains(searchPhrase.ToLower())
-                    || x.Tags.ToLower().Contains(searchPhrase.ToLower())
-                    ))
-                    .ToList();
+                {
+                    productsList = ProductDb.Products
+                        .Where(x => (
+                           x.ProductName.ToLower().Contains(searchPhrase.ToLower())
+                        || x.Tags.ToLower().Contains(searchPhrase.ToLower())
+                        ))
+                        .ToList();
                 }
             }
             else
             {
                 productsList = ProductDb.Products.ToList();
-            }
+            }            
 
-            Sort(productsList);
-
-            return PartialView("PartialListOfProducts", productsList);
+            return PartialView("PartialListOfProducts", ConvertProductsToVM(productsList));
         }
-
-        public void Sort(List<Product> productsList) 
+        
+        [Authorize(Roles = "Owner")]
+        public ActionResult DeleteComment(int commentID, int productID)
         {
-
+            var comm = CommentDb.Comments.Find(commentID);
+            comm.IsVisible = false;
+            CommentDb.SaveChanges();
+            return RedirectToAction("Details", new { id = productID});
         }
+
         #region ZdublowaneFunkcjeDoKoszyka
         public ActionResult AddProductToCart(int productID, int quantity)
         {
@@ -306,6 +321,40 @@ namespace Sklep_z_truciznami.Controllers
             AddProductToCart(productID, newQuantity);
             CheckCartForInvalidQuantity();
             return View("PartialCart");
+        }
+
+        public ActionResult SimilarProducts(int id)
+        {
+            int maxSimilarProductsCount = 10;
+            int foundCount=0;
+            List<ProductVM> outputList = new List<ProductVM>();
+
+            List<Product> productList = ProductDb.Products.Where(x => 1 == 1).ToList();
+            if (productList.Count > 0)
+            {
+                Product mainProduct = productList.Find(x => x.ProductId == id);
+                List<string> mainProductTags = mainProduct.Tags.Split(new char[] { ' ', ';' }).ToList();
+
+                productList.Remove(mainProduct);
+                List<ProductVM> convertedProductsList = ConvertProductsToVM(productList);
+                convertedProductsList.Sort((x, y) => x.Rating.CompareTo(y.Rating));                
+
+                foreach (var item in convertedProductsList)
+                {
+                    foreach (var tag in mainProductTags)
+                    {
+                        if (item.Tags.Contains(tag) && !outputList.Contains(item))
+                        {
+                            outputList.Add(item);
+                            foundCount++;
+                        }
+                        if (maxSimilarProductsCount == foundCount) return PartialView(outputList);
+                    }
+                    if (maxSimilarProductsCount == foundCount) break;
+                }
+            }
+
+            return PartialView(outputList);
         }
 
         // CheckCartForInvalidQuantity

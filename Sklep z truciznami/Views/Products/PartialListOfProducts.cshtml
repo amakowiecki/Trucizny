@@ -1,68 +1,25 @@
-﻿@model IEnumerable<Sklep_z_truciznami.Models.Product>
+﻿@model IEnumerable<Sklep_z_truciznami.ViewModels.ProductVM>
 
-@{ if (Model != null && Model.Count<Sklep_z_truciznami.Models.Product>() > 0) { 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PhotoFile)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tags)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RatingSum)
-        </th>        
-        <th style="width:100px"></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <div id="img">
-                    <div id="">
-                        <a href="@Url.Action("Details", "Products",new {id=@item.ProductId} )" title="@item.ProductName" rel="nofollow"><img style="height:100px; width:120px; background-position:center; background-size:cover; padding-left:10px;padding-right:10px " src="@Url.Action("Show", "Products", new { id = @item.ProductId } )" alt="@item.ProductName"></a>
-                    </div>
-                </div>
-            </td>
-            <td>
-                @Html.ActionLink(item.ProductName, "Details", "Products", new { id = item.ProductId }, null)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @EnumsHelper.GetName(item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.RatingSum)
-            </td>
-            <td>
-                <a href="#" onclick="Details(@item.ProductId)" id="btnTest">Dodaj do koszyka</a>
-            </td>
-        </tr>
-    }
-
-</table>
+@{ if (Model != null && Model.Count<Sklep_z_truciznami.ViewModels.ProductVM>() > 0) { 
+   
+    
+    WebGrid grid = new WebGrid(Model,ajaxUpdateContainerId:"productsGrid");
+       
+    
+    
+    <div id="productsGrid">
+        @grid.GetHtml(tableStyle: "table", columns: grid.Columns(
+                    grid.Column("", header: "Zdjęcie", format: x => Html.Raw(string.Format("<img style=\"height:100px; width:120px; background-position:center; background-size:cover; padding-left:10px;padding-right:10px \" src=\"/Products/Show/{0}\" />", x.ProductId))),
+                    grid.Column("ProductName","Nazwa produktu", format: x =>Html.Raw(string.Format("<a href=\"/Products/Details/{0}\">{1}</a> ",x.ProductId,x.ProductName))),
+                    grid.Column("Quantity", "Dostępna ilość"),
+                    grid.Column("Category", format: x => EnumsHelper.GetName(x.Category)),
+                    grid.Column("Price", "Cena za sztukę"),
+                    grid.Column("Tags", "Tagi"),
+                    grid.Column("Rating", "Ocena", format: x => x.Rating),
+                    grid.Column("", format: x => Html.Label("Dodaj do koszyka", new { onclick = "Details(" + x.ProductId + ")", style = "cursor:pointer" }))
+            ))
+    </div>
+    
 }
 else
    {

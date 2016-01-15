@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Sklep_z_truciznami.Models;
+using System.Collections.Generic;
 
 namespace Sklep_z_truciznami.Controllers
 {
@@ -364,7 +365,31 @@ namespace Sklep_z_truciznami.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        [Authorize(Roles = "Owner")]
+        public ActionResult ManageUsers()
+        {
+            var currentUserID = User.Identity.GetUserId();
+            List<ApplicationUser> users = new List<ApplicationUser>();
+            using(var appDBC = new ApplicationDbContext())
+            {
+                users = appDBC.Users.Where(_ => _.Id != currentUserID).ToList();
+            }
+            return View(users);
+        }
+
+        [Authorize(Roles = "Owner")]
+        public ActionResult ChangeUserStatus(Guid userID, bool status)
+        {
+            using (var appDBC = new ApplicationDbContext())
+            {
+                var user = appDBC.Users.Where(_ => _.Id == userID.ToString()).FirstOrDefault();
+                user.IsActive = status;
+                appDBC.SaveChanges();
+            }
+            return RedirectToAction("ManageUsers");
+        }
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
