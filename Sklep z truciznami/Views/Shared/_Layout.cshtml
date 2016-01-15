@@ -102,7 +102,12 @@
                             }
                         </ul>
                     </li>
-
+                    @if(User.IsInRole("Owner"))
+                    {
+                    <li class="dropdown">
+                        @Html.ActionLink("Zarządzaj użytkownikami", "ManageUsers", "Manage", null, new { @class = "dropdown-toggle", role = "button" })
+                    </li>
+                    }
                 </ul>
 
                 @*<div class="btn-group">

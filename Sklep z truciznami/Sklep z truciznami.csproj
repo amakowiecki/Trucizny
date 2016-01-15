@@ -289,6 +289,7 @@
     <Content Include="Views\Shared\PartialCart.cshtml" />
     <Content Include="Views\Products\ListOfProducts.cshtml" />
     <Content Include="Views\Products\PartialListOfProducts.cshtml" />
+    <Content Include="Views\Manage\ManageUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
