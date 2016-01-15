@@ -44,49 +44,49 @@
 
 <hr class="divider">
 
-<div class="left_row">
-    <h2 class="h2_special">Najnowsze</h2>
-    <div class="row">
-        @foreach (var item in Model.Latest)
-        {
-            <div class="col-sm-6 col-md-6">
-                <div class="thumbnail">
-                    <img class="product_thumbnail" src="@Url.Action("Show", "Products", new { id = @item.ProductId } )" alt="product" />
-                    <div class="caption">
-                        <h3 class="title">@item.ProductName</h3>
-                        <p>@item.ProductDescription</p>
-                        <p>
-                            <a href="@Url.Action("AddProductToCart", "Order", new { productID = @item.ProductId, quantity = 1 })" class="btn btn-primary" role="button">Dodaj do koszyka</a>
-                            <a href="@Url.Action("Details", "Products", new {id = @item.ProductId})" class="btn btn-default" role="button">Szczegóły</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
 
-        }
-    </div>
-</div>
-@*<hr class="divider">*@
-<div class="right_row">
-    <h2 class="h2_special">Najpopularniejsze</h2>
-    <div class="row" style="width:50%">
-        @foreach (var item in Model.MostPopular)
-        {
-            <div class="col-sm-6 col-md-6">
-                <div class="thumbnail">
-                    <img src="@Url.Action("Show", "Products", new { id = @item.ProductId } )" alt="product" />
-                    @*<img src="Content\images\products\product1.jpg" alt="product">*@
-                    <div class="caption">
-                        <h3>@item.ProductName</h3>
-                        <p>@item.ProductDescription</p>
-                        <p>
-                            @*@Html.ActionLink("Szczegóły", "Details", "Products", new { id = @item.ProductId, @class = "btn btn_default", role = "button" })*@
-                            @Html.ActionLink("Szczegóły", "Details", "Products", new { id = @item.ProductId, @class = "btn btn_default", role = "button" }, null)
-                            <a href="#" class="btn btn-primary" role="button">Dodaj do koszyka</a>
-                        </p>
+        <div class="left_row">
+            <h2 class="h2_special">Najnowsze</h2>
+            <div class="row">
+                @foreach (var item in Model.Latest)
+                {
+                    <div class="col-sm-12 col-md-6">
+                        <div class="thumbnail">
+                            <img class="product_thumbnail" src="@Url.Action("Show", "Products", new { id = @item.ProductId } )" alt="product" />
+                            <div class="caption">
+                                <h3 class="title">@item.ProductName</h3>
+                                <p>@item.ProductDescription</p>
+                                <p>
+                                    <a href="@Url.Action("AddProductToCart", "Order", new { productID = @item.ProductId, quantity = 1 })" class="btn btn-primary" role="button">Dodaj do koszyka</a>
+                                    <a href="@Url.Action("Details", "Products", new {id = @item.ProductId})" class="btn btn-default" role="button">Szczegóły</a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                }
+            </div>
+        </div>
+
+
+
+        <div class="right_row">
+            <h2 class="h2_special">Najpopularniejsze</h2>
+            <div class="row">
+                @foreach (var item in Model.MostPopular)
+                {
+                    <div class="col-sm-12 col-md-6">
+                        <div class="thumbnail">
+                            <img src="@Url.Action("Show", "Products", new { id = @item.ProductId } )" alt="product" />
+                            <div class="caption">
+                                <h3>@item.ProductName</h3>
+                                <p>@item.ProductDescription</p>
+                                <p>
+                                    @Html.ActionLink("Szczegóły", "Details", "Products", new { id = @item.ProductId, @class = "btn btn_default", role = "button" }, null)
+                                    <a href="#" class="btn btn-primary" role="button">Dodaj do koszyka</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
                 </div>
             </div>
-        }
-    </div>
-</div>
