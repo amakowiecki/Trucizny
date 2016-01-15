@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Sklep_z_truciznami.Models.Product>
+﻿@model IEnumerable<Sklep_z_truciznami.ViewModels.ProductVM>
 
-@{ if (Model != null && Model.Count<Sklep_z_truciznami.Models.Product>() > 0) { 
+@{ if (Model != null && Model.Count<Sklep_z_truciznami.ViewModels.ProductVM>() > 0) { 
    
     
     WebGrid grid = new WebGrid(Model,ajaxUpdateContainerId:"productsGrid");
@@ -10,12 +10,12 @@
     <div id="productsGrid">
         @grid.GetHtml(tableStyle: "table", columns: grid.Columns(
                     grid.Column("", header: "Zdjęcie", format: x => Html.Raw(string.Format("<img style=\"height:100px; width:120px; background-position:center; background-size:cover; padding-left:10px;padding-right:10px \" src=\"/Products/Show/{0}\" />", x.ProductId))),
-                    grid.Column("ProductName","Nazwa produktu", format: x =>Html.Raw(string.Format("<a href=\"/Products/Detail\"/{0}\">{1}</a> ",x.ProductId,x.ProductName))),
+                    grid.Column("ProductName","Nazwa produktu", format: x =>Html.Raw(string.Format("<a href=\"/Products/Details/{0}\">{1}</a> ",x.ProductId,x.ProductName))),
                     grid.Column("Quantity", "Dostępna ilość"),
                     grid.Column("Category", format: x => EnumsHelper.GetName(x.Category)),
                     grid.Column("Price", "Cena za sztukę"),
                     grid.Column("Tags", "Tagi"),
-                    @*grid.Column("RatingSum", "Ocena", format: x => @<text>@(x.RatingNumber != 0 ? x.RatingSum/x.RatingNumber : 0)</text>),*@
+                    grid.Column("Rating", "Ocena", format: x => x.Rating),
                     grid.Column("", format: x => Html.Label("Dodaj do koszyka", new { onclick = "Details(" + x.ProductId + ")", style = "cursor:pointer" }))
             ))
     </div>
