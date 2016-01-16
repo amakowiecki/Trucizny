@@ -25,11 +25,11 @@
                         <span class="badge">
                             @if (Model.Product.RatingNumber != 0)
                             {
-                                @Html.Display((Model.Product.RatingSum / Model.Product.RatingNumber).ToString())
+                                <b>@(Model.Product.RatingSum / Model.Product.RatingNumber)</b>
                             }
                             else
                             {
-                                @Html.DisplayFor(model => model.Product.RatingNumber)
+                                <b>@Model.Product.RatingSum</b>
                             }
 
                         </span>
