@@ -6,9 +6,9 @@
         WebGrid grid = new WebGrid(Model, ajaxUpdateContainerId: "usersGrid");
     }
 
-    <h2>Użytkownicy:</h2>
-
-               @grid.GetHtml(tableStyle: "table", columns: grid.Columns(
+    <h2 style="margin:40px auto">Zarządzaj użytkownikami</h2>
+<div style="margin-bottom:40px">
+    @grid.GetHtml(tableStyle: "table", columns: grid.Columns(
                     grid.Column("Email", "Użytkownik"),
                     grid.Column("IsActive", "Status", format: x =>
                     {
@@ -25,5 +25,5 @@
                             return Html.ActionLink("Odblokuj", "ChangeUserStatus", new { userID = x.Id, status = true }, new { @class = "btn btn-default", role = "button" });
                     }
                     )))
-
+</div>
 

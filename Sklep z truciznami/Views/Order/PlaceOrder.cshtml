@@ -1,53 +1,59 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Złóż zamówienie";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PlaceOrder</h2>
+<h2 style="margin:40px auto">Złóż zamówienie</h2>
 
 @if (Session["order"] != null && (Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>).Count != 0)
 {
     double overallPrice = 0;
-    <table>
-        <tr>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Nazwa
-            </th>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Opis
-            </th>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Ilość
-            </th>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Cena
-            </th>
-        </tr>
-
-        @foreach (var PairProductQuantity in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
-        {
-            double price = PairProductQuantity.Key.Quantity * PairProductQuantity.Value;
-            overallPrice += price;
+    <table class="table">
+        <thead>
             <tr>
-                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductName</td>
-                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductDescription</td>
-                <td style="padding:0 10px 0 10px">@PairProductQuantity.Value.ToString()</td>
-                <td style="padding:0 10px 0 10px">@(price.ToString() + " PLN")</td>
+                <th style="width:15%">
+                    Nazwa
+                </th>
+                <th>
+                    Opis
+                </th>
+                <th >
+                    Ilość
+                </th>
+                <th>
+                    Cena
+                </th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var PairProductQuantity in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+            {
+                double price = PairProductQuantity.Key.Quantity * PairProductQuantity.Value;
+                overallPrice += price;
+                <tr>
+                    <td>@PairProductQuantity.Key.ProductName</td>
+                    <td>@PairProductQuantity.Key.ProductDescription</td>
+                    <td>@PairProductQuantity.Value.ToString()</td>
+                    <td>@(price.ToString() + " zł")</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Suma: </td>
+                <td font:bold">@overallPrice zł</td>
+            </tr>
+        </tbody>
+</table>
+    <div>
+        @using (Html.BeginForm("PlaceOrder", "Order"))
+        {
+            @Html.Hidden("acceptance", true)
+            <button type="submit" class="btn btn-primary">
+                Zatwierdź zamówienie
+            </button>
         }
-        <tr>
-            <td></td>
-            <td></td>
-            <td style="text-align:right;padding:0 10px 0 10px">Sum: </td>
-            <td style="padding:0 10px 0 10px;font:bold">@overallPrice PLN</td>
-        </tr>
-    </table>
-    <div>@using (Html.BeginForm("PlaceOrder","Order"))
-         {
-             @Html.Hidden("acceptance",true)
-          <input type="submit" value="Zatwierdź" />  
-         } </div>
+</div>
 }
 else
 {

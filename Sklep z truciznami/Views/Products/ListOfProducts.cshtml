@@ -4,12 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/Scripts/jquery.min.js"></script>
-<div style="height:20px"></div>
-<div>
+<div style="margin-top:40px">
     @using (Html.BeginForm("Search", "Products", FormMethod.Post, new {id="searchForm" }))
     {        
         @Html.TextBox("searchPhrase", null, new { id = "SearchPhrase", onfocus = "this.value = this.value;" })
-    <button id="searchButton">Szukaj</button>
+    <button id="searchButton" class="btn btn-primary">Szukaj</button>
     <br />        
         @Html.CheckBox("searchInDescription")    
         @Html.Label("Szukaj też w opisach")

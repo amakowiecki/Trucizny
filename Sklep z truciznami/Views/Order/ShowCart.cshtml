@@ -5,53 +5,62 @@
 }
 
 
-<h2>ShowCart</h2>
-@Html.ActionLink("Pokaż zamówienia","ShowOrders","Order")
+<h2 style="margin-top:40px">Koszyk zakupów</h2>
+
 <br />
 @if (Session["order"] != null && (Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>).Count != 0)
 {
     double overallPrice = 0;
-    <table>
-        <tr>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Nazwa
-            </th>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Opis
-            </th>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Ilość
-            </th>
-            <th style="min-width:100px;padding:0 10px 0 10px">
-                Cena
-            </th>
-            <th style="min-width:100px;padding:0 10px 0 10px"></th>
-        </tr>        
-
-        @foreach (var PairProductQuantity in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
-        {
-            double price = PairProductQuantity.Key.Quantity * PairProductQuantity.Value;
-            overallPrice += price;
+    <table class="table">
+        <thead>
             <tr>
-                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductName</td>
-                <td style="padding:0 10px 0 10px">@PairProductQuantity.Key.ProductDescription</td>
-                <td style="padding:0 10px 0 10px">@PairProductQuantity.Value.ToString()</td>
-                <td style="padding:0 10px 0 10px">@(price.ToString() + " PLN")</td>
-                <td style="padding:0 10px 0 10px">@Html.ActionLink("Usuń", "RemoveProductFromCart", "Order", new { productID = PairProductQuantity.Key.ProductId }, null)</td>
+                <th style="width:15%">
+                    Nazwa
+                </th>
+                <th >
+                    Opis
+                </th>
+                <th>
+                    Ilość
+                </th>
+                <th>
+                    Cena
+                </th>
+                <th></th>
             </tr>
-        }
-        <tr>
-            <td></td>
-            <td></td>
-            <td style="text-align:right;padding:0 10px 0 10px">Suma: </td>
-            <td style="padding:0 10px 0 10px">@overallPrice PLN</td>
-        </tr>
-    </table>
-    <div>@Html.ActionLink("Kontynuuj zakupy","Index","Products")</div>
-    <div>@Html.ActionLink("Zakończ zamówienie", "PlaceOrder","Order")</div>
+        </thead>
+        <tbody>
+            @foreach (var PairProductQuantity in Session["order"] as Dictionary<Sklep_z_truciznami.Models.Product, int>)
+            {
+                double price = PairProductQuantity.Key.Quantity * PairProductQuantity.Value;
+                overallPrice += price;
+                <tr>
+                    <td>@PairProductQuantity.Key.ProductName</td>
+                    <td>@PairProductQuantity.Key.ProductDescription</td>
+                    <td>@PairProductQuantity.Value.ToString()</td>
+                    <td>@(price.ToString() + " zł")</td>
+                    <td>@Html.ActionLink("Usuń", "RemoveProductFromCart", "Order", new { productID = PairProductQuantity.Key.ProductId}, null)</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align:right;padding:0 10px 0 10px">Suma: </td>
+                <td style="padding:0 10px 0 10px">@overallPrice zł</td>
+            </tr>
+        </tbody>
+</table>
+    @*<div>@Html.ActionLink("Kontynuuj zakupy","Index","Products")</div>
+    <div>@Html.ActionLink("Zakończ zamówienie", "PlaceOrder","Order")</div>*@
+    <div class="btn-group" role="group" aria-label="...">
+        <input type="button" class="btn btn-primary" value="Kontynuuj zakupy" onclick="location.href='@Url.Action("Index", "Products")'" />
+        <input type="button" class="btn btn-primary" value="Złóż zamówienie" onclick="location.href='@Url.Action("PlaceOrder", "Order")'" />
+    </div>
+    <div style="margin-top:40px"><input type="button" class="btn btn-default" value="Pokaż zamówienia" onclick="location.href='@Url.Action("ShowOrders", "Order")'" /></div>
+    
 }
 else
 {
-    @Html.Label("koszyk jest pusty");
+    <h3 style="margin-top:10px">Koszyk jest pusty!</h3>
 }
 
