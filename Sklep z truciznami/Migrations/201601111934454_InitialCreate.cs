@@ -8,25 +8,21 @@ namespace Sklep_z_truciznami.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Orders",
+                "dbo.Ratings",
                 c => new
                     {
-                        OrderId = c.Int(nullable: false, identity: true),
+                        RateId = c.Int(nullable: false, identity: true),
                         ClientId = c.String(nullable: false),
                         ProductId = c.Int(nullable: false),
-                        ProductName = c.String(),
-                        Quantity = c.Int(nullable: false),
-                        OrderDate = c.DateTime(nullable: false),
-                        AnswerDate = c.DateTime(nullable: false),
-                        Status = c.Int(nullable: false),
+                        Rate = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.OrderId);
+                .PrimaryKey(t => t.RateId);
             
         }
         
         public override void Down()
         {
-            DropTable("dbo.Orders");
+            DropTable("dbo.Ratings");
         }
     }
 }

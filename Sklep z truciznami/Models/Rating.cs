@@ -16,13 +16,14 @@ namespace Sklep_z_truciznami.Models
         [Required]
         public int RateId { get; set; }
 
-        [Required]
+        //[Required]
         public string ClientId { get; set; }
 
         [Required]
         public int ProductId { get; set; }
 
         [Required]
+        [Range(1, 10, ErrorMessage = "Proszę wybrać ocenę w przedziale 1-10")]
         public int Rate { get; set; }
 
         public Rating()

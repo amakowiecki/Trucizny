@@ -13,7 +13,7 @@ namespace Sklep_z_truciznami.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201601111229582_InitialCreate"; }
+            get { return "201601111934454_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

@@ -107,24 +107,28 @@ namespace Sklep_z_truciznami.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddRating(int id, [Bind(Include = "RateId,ClientId,ProductId,Rate")] Rating rating)
         {
-            Rating FindRating = RatingDb.FindRating(User.Identity.Name, id);
+            Rating TempRate = rating;
+            rating = RatingDb.FindRating(User.Identity.Name, id);
 
-            if (FindRating != null)
+            if (ModelState.IsValid)
             {
-                ProductDb.ChangeProductRating(id, rating.Rate - FindRating.Rate);
-                FindRating.Rate = rating.Rate;
+                if (rating != null)
+                {
+                    ProductDb.ChangeProductRating(id, TempRate.Rate - rating.Rate);
+                    rating.Rate = TempRate.Rate;
 
-                RatingDb.Entry(FindRating).State = EntityState.Modified;
-                RatingDb.SaveChanges();
-            }
-            else
-            {
-                Rating Rating = new Rating(User.Identity.Name, id, rating.Rate);
+                    RatingDb.Entry(rating).State = EntityState.Modified;
+                    RatingDb.SaveChanges();
+                }
+                else
+                {
+                    Rating Rating = new Rating(User.Identity.Name, id, TempRate.Rate);
 
-                ProductDb.UpdateProductRating(id, Rating.Rate);
+                    ProductDb.UpdateProductRating(id, Rating.Rate);
 
-                RatingDb.Ratings.Add(Rating);
-                RatingDb.SaveChanges();
+                    RatingDb.Ratings.Add(Rating);
+                    RatingDb.SaveChanges();
+                }
             }
 
             return RedirectToAction("Details", "Products", new { id = id });
