@@ -219,6 +219,7 @@
     <Content Include="Content\images\slider\slide01.jpg" />
     <Content Include="Content\images\slider\slide02.jpg" />
     <Content Include="Content\images\slider\slide03.jpg" />
+    <Content Include="Content\jquery-eu-cookie-law-popup.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css">

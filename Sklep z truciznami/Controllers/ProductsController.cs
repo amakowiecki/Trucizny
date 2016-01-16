@@ -194,9 +194,12 @@ namespace Sklep_z_truciznami.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             product.AddDate = oldProduct.AddDate;
+            product.RatingNumber = oldProduct.RatingNumber;
+            product.RatingSum = oldProduct.RatingSum;
             if (product.PhotoFile == null)
             {
                 product.PhotoFile = oldProduct.PhotoFile;
+                
                 product.PhotoImageFileName = oldProduct.PhotoImageFileName;
                 product.PhotoImageMimeType = oldProduct.PhotoImageMimeType;
             }
