@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Sale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Poświąteczna wyprzedaż</h2>
+
+<p style="margin:3% 5%;font-size:13pt;text-align: justify;">
+    10% zniżki na trucizny świąteczne!
+</p>
+<p style="margin:0 5% 3% 5%;font-size:13pt;text-align: justify;">
+    Tylko do końca stycznia 10% zniżki na produkty takie jak choinkowa @Html.ActionLink("jodła", "Details", "Products", new { id = ViewBag.firId }, new { style = "color:0000FF" })       
+     czy @Html.ActionLink("jemioła pospolita.", "Details", "Products", new { id = ViewBag.mistletoeId }, new {style="color:0000FF" })
+     Nie czekaj, zamów już dziś!
+</p>

@@ -5,16 +5,16 @@
 }
 <script src="~/Scripts/jquery.min.js"></script>
 <div style="margin-top:40px">
-    @using (Html.BeginForm("Search", "Products", FormMethod.Post, new {id="searchForm" }))
-    {        
-        @Html.TextBox("searchPhrase", null, new { id = "SearchPhrase", onfocus = "this.value = this.value;" })
-    <button id="searchButton" class="btn btn-primary">Szukaj</button>
-    <br />        
-        @Html.CheckBox("searchInDescription")    
-        @Html.Label("Szukaj też w opisach")
-    }
-    
-</div>
+        @using (Html.BeginForm("Search", "Products", FormMethod.Post, new {id="searchForm" }))
+        {
+            @Html.TextBox("searchPhrase", null, new { id = "SearchPhrase", onfocus = "this.value = this.value;" })
+        <button id="searchButton" class="btn btn-primary">Szukaj</button>
+        <br />
+            @Html.CheckBox("searchInDescription")
+            @Html.Label("Szukaj też w opisach")
+        }
+
+    </div>
 <div id="ListOfProducts">  
     @Html.Partial("PartialListOfProducts", Model)
 </div>

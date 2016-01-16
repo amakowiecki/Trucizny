@@ -11,14 +11,15 @@
     <hr />
     <div class="row">
         <div class="col-sm-5 col-md-5" style="margin-right:15px">
-            <img class="thumbnail" src=@Url.Action("Show", "Products", new { id = @Model.Product.ProductId } ) alt="product" />
+            <img class="thumbnail" src=@Url.Action("Show", "Products", new { id = @Model.Product.ProductId } ) alt="@Model.Product.ProductName" />
         </div>
         <div class="row col-sm-6 col-md-6" style="margin-left:15px;padding-left:0">
             <div>
                 <ul class="list-group" style="width:60%">
                     <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Tags):</b> @Html.DisplayFor(model => model.Product.Tags)</li>
                     <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Quantity):</b> @Html.DisplayFor(model => model.Product.Quantity)</li>
-                    <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Category):</b> @Html.DisplayFor(model => model.Product.Category)</li>
+                    <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Unit):</b> @EnumsHelper.GetName(Model.Product.Unit)</li>
+                    <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Category):</b> @EnumsHelper.GetName(Model.Product.Category)</li>
                     <li class="list-group-item"><b>@Html.DisplayNameFor(model => model.Product.Price):</b> @Html.DisplayFor(model => model.Product.Price) zł</li>
                     <li class="list-group-item">
                         <span class="badge">
@@ -91,7 +92,7 @@
                         {
                             @Html.ActionLink("(USUŃ)", "DeleteComment", new { commentID = coment.CommentId, productID = Model.Product.ProductId })
                         }
-                        <i> @coment.CommentDate:</i> @coment.CommentContent
+                        <i> @coment.CommentDate @ViewBag.CommentUsers[coment.CommentId]:</i> @coment.CommentContent
                     </span>
                 </li>
             }

@@ -13,7 +13,7 @@
                     grid.Column("ProductName","Nazwa produktu", format: x =>Html.Raw(string.Format("<a href=\"/Products/Details/{0}\">{1}</a> ",x.ProductId,x.ProductName))),
                     grid.Column("Quantity", "Dostępna ilość"),
                     grid.Column("Category", format: x => EnumsHelper.GetName(x.Category)),
-                    grid.Column("Price", "Cena za sztukę"),
+                    grid.Column("Price", "Cena za sztukę (w PLN)"),
                     grid.Column("Tags", "Tagi"),
                     grid.Column("Rating", "Ocena", format: x => x.Rating),
                     grid.Column("", format: x => Html.Label("Dodaj do koszyka", new { onclick = "Details(" + x.ProductId + ")", style = "cursor:pointer" }))

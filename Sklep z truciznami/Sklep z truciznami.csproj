@@ -288,6 +288,9 @@
     <Content Include="Views\Products\ListOfProducts.cshtml" />
     <Content Include="Views\Products\PartialListOfProducts.cshtml" />
     <Content Include="Views\Manage\ManageUsers.cshtml" />
+    <Content Include="Views\Home\Shipping.cshtml" />
+    <Content Include="Views\Home\ValentinesDay.cshtml" />
+    <Content Include="Views\Home\Sale.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

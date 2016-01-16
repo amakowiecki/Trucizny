@@ -20,52 +20,52 @@
     <div class="eupopup eupopup-bottomright"></div>
 
     @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                Kategorie <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                @foreach (var item in Enum.GetNames(typeof(Sklep_z_truciznami.Models.Category)))
-                                {
-                                    <li><a href="#">@Sklep_z_truciznami.Models.Product.GetCategoryDisplayName(item)</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </li>
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("produkty", "ListOfProducts", "Products")</li>
-
-                </ul>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>
-                        Koszyk (<span id="liczebnoscKoszyka">0</span>)
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                     </button>
-                    <ul class="dropdown-menu"  role="menu">
-                        <li id="cart">@Html.Partial("PartialCart")</li>
-                    </ul>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
-                @Html.Partial("_LoginPartial")
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    Kategorie <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    @foreach (var item in Enum.GetNames(typeof(Sklep_z_truciznami.Models.Category)))
+                                    {
+                                        <li><a href="#">@Sklep_z_truciznami.Models.Product.GetCategoryDisplayName(item)</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("produkty", "ListOfProducts", "Products")</li>
+
+                    </ul>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            Koszyk (<span id="liczebnoscKoszyka">0</span>)
+                        </button>
+                        <ul class="dropdown-menu"  role="menu">
+                            <li id="cart">@Html.Partial("PartialCart")</li>
+                        </ul>
+                    </div>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-        </div>
-    </div>*@
-    <div class="visible-md visible-sm" style="height:50px"></div>
+        </div>*@
+
     <nav class="navbar navbar-default navbar-fixed-top" style="border-radius:0px !important;">
         <div class="container container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -76,40 +76,65 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new {@class = "navbar-brand"})
+                @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
 
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-                <form class="navbar-form navbar-left" role="search">
+                @*<form class="navbar-form navbar-left" role="search" id="searchForm">*@
+            @if (ViewBag.ListView == null || !ViewBag.ListView)
+            {
+                using (Html.BeginForm("SearchMain", "Products", FormMethod.Post, new { id = "searchForm1", @class = "navbar-form navbar-left", role = "search" }))
+                {
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Czego szukasz?">
+                        <input type="text" class="form-control" name="searchPhrase" id="SearchPhrase" placeholder="Czego szukasz?">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                         </span>
                     </div><!-- /input-group -->
+                }
+            }
+                    
+                    @*<div class="form-group">
+                <input type="text" class="form-control" placeholder="Czego szukasz?">
+            </div>
+            <button type="submit" class="btn btn-default" style="display:none"></button>*@                  
 
-                </form>
-
+                @*</form>*@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="@Url.Action("ListOfProducts", "Products", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"> Produkty <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             @foreach (var item in Enum.GetNames(typeof(Sklep_z_truciznami.Models.Category)))
                             {
-                                <li><a href='@Url.Action()'>@Sklep_z_truciznami.Models.Product.GetCategoryDisplayName(item)</a></li>
+                                var category = Sklep_z_truciznami.Models.Product.GetCategoryDisplayName(item);
+                                <li>@Html.ActionLink(category, "ShowByCategory", "Products", new { category = item}, null)</li>
                             }
                         </ul>
                     </li>
-                    @if(User.IsInRole("Owner"))
-                    {
                     <li class="dropdown">
-                        @Html.ActionLink("Zarządzaj użytkownikami", "ManageUsers", "Manage", null, new { @class = "dropdown-toggle", role = "button" })
+                        @Html.ActionLink("Dostawa", "Shipping", "Home")
+
                     </li>
+                    @if (User.IsInRole("Owner"))
+                    {
+                        <li class="dropdown">
+                            @Html.ActionLink("Zarządzaj użytkownikami", "ManageUsers", "Manage", null, new { @class = "dropdown-toggle", role = "button" })
+                        </li>
                     }
                 </ul>
+
+                @*<div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            Koszyk (@orderSum.ToString())
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.Partial("PartialCart")</li>
+                        </ul>
+                    </div>*@
+
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="@Url.Action("ShowCart", "Order", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"><span class="glyphicon glyphicon-shopping-cart"></span> Koszyk (<span id="liczebnoscKoszyka">0</span>)</a>
@@ -150,6 +175,40 @@
                 }
             }
     }
-        $("#liczebnoscKoszyka").replaceWith('<span id="liczebnoscKoszyka">'+@orderSum+'</span>');
+        $("#liczebnoscKoszyka").replaceWith('<span id="liczebnoscKoszyka">' +@orderSum +'</span>');
+
+     
     })
+    @if (ViewBag.ListView == null || !ViewBag.ListView)
+            {
+                <text>
+    $(window).keydown(function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            $.ajax({
+            url: "/Products/SearchMain",
+            type: "POST",
+            data: $("#searchForm1").serialize()
+            //success: function (result) {
+            //    $("#ListOfProducts").html(result);
+            //}
+        });
+            return false;
+        }
+    });
+
+    $("#searchButton1").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "/Products/SearchMain",
+            type: "POST",
+            data: $("#searchForm1").serialize(),
+            //success: function (result) {
+            //    $("#ListOfProducts").html(result);
+            }
+        });
+    });
+                </text>
+            }
+   
 </script>

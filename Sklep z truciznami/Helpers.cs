@@ -26,8 +26,14 @@ namespace Sklep_z_truciznami
             DisplayAttribute[] attributes = (DisplayAttribute[])orderStatus.GetType().GetField(orderStatus.ToString()).GetCustomAttributes(typeof(DisplayAttribute), false);
             return attributes.Length > 0 ? attributes[0].Name : string.Empty;
         }
-        
-        
+
+        public static string GetName(Models.Unit unit)
+        {
+            DisplayAttribute[] attributes = (DisplayAttribute[])unit.GetType().GetField(unit.ToString()).GetCustomAttributes(typeof(DisplayAttribute), false);
+            return attributes.Length > 0 ? attributes[0].Name : string.Empty;
+        }
+
+
     }
 
     public static class DbHelper

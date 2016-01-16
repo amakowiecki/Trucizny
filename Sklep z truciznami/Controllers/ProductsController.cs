@@ -19,6 +19,7 @@ namespace Sklep_z_truciznami.Controllers
         private Product2Context ProductDb = new Product2Context();
         private CommentContext CommentDb = new CommentContext();
         private Rating2Context RatingDb = new Rating2Context();
+        private ApplicationDbContext db = new ApplicationDbContext();
         string orderLabel = "order";
 
         public ActionResult Index()
@@ -26,6 +27,7 @@ namespace Sklep_z_truciznami.Controllers
             return View(ProductDb.Products.ToList());
         }
 
+        //[AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,7 +42,32 @@ namespace Sklep_z_truciznami.Controllers
 
             Details Details = new Details(product, CommentDb, RatingDb, User.Identity.Name);
 
+            Dictionary<long, string> CommentUsers = new Dictionary<long, string>();
+            foreach (var comment in Details.Comments)
+            {
+                var userName = "";
+                try
+                {
+                    userName = db.Users.Find(comment.UserId).UserName;
+                }
+                catch (Exception)
+                {
+                    userName = "Nieznany użytkownik";
+                }
+
+                CommentUsers.Add(comment.CommentId, userName);
+            }
+            ViewBag.CommentUsers = CommentUsers;
+
             return View(Details);
+        }
+
+        [AllowAnonymous]
+        public ActionResult ShowByCategory(Category category)
+        {
+            List<Product> productsList = ProductDb.Products.Where(x => x.Category == category).ToList();
+            ViewBag.ListView = true;
+            return View("ListOfProducts", ConvertProductsToVM(productsList));
         }
 
         [AllowAnonymous]
@@ -195,9 +222,32 @@ namespace Sklep_z_truciznami.Controllers
             base.Dispose(disposing);
         }
 
+        [AllowAnonymous]
         public ActionResult ListOfProducts()
         {
+            ViewBag.ListView = true;
             return View(ConvertProductsToVM(ProductDb.Products.ToList()));
+        }
+
+        [AllowAnonymous]
+        public ActionResult SearchMain(string searchPhrase)
+        {
+            List<Product> productsList;
+            if (!String.IsNullOrEmpty(searchPhrase))
+            {
+                productsList = ProductDb.Products
+                    .Where(x => (
+                       x.ProductName.ToLower().Contains(searchPhrase.ToLower())
+                    || x.Tags.ToLower().Contains(searchPhrase.ToLower())
+                    ))
+                    .ToList();
+            }
+            else
+            {
+                productsList = ProductDb.Products.ToList();
+            }
+            ViewBag.ListView = true;
+            return View("ListOfProducts",ConvertProductsToVM(productsList));
         }
 
         public List<ProductVM> ConvertProductsToVM(List<Product> productList)
@@ -210,6 +260,7 @@ namespace Sklep_z_truciznami.Controllers
             return outputList;
         }
 
+        [AllowAnonymous]
         public ActionResult Search(string searchPhrase, bool searchInDescription)
         {
             List<Product> productsList;
@@ -238,18 +289,18 @@ namespace Sklep_z_truciznami.Controllers
             else
             {
                 productsList = ProductDb.Products.ToList();
-            }            
+            }
 
             return PartialView("PartialListOfProducts", ConvertProductsToVM(productsList));
         }
-        
+
         [Authorize(Roles = "Owner")]
         public ActionResult DeleteComment(int commentID, int productID)
         {
             var comm = CommentDb.Comments.Find(commentID);
             comm.IsVisible = false;
             CommentDb.SaveChanges();
-            return RedirectToAction("Details", new { id = productID});
+            return RedirectToAction("Details", new { id = productID });
         }
 
         #region ZdublowaneFunkcjeDoKoszyka
@@ -323,10 +374,11 @@ namespace Sklep_z_truciznami.Controllers
             return View("PartialCart");
         }
 
+        [AllowAnonymous]
         public ActionResult SimilarProducts(int id)
         {
             int maxSimilarProductsCount = 10;
-            int foundCount=0;
+            int foundCount = 0;
             List<ProductVM> outputList = new List<ProductVM>();
 
             List<Product> productList = ProductDb.Products.Where(x => 1 == 1).ToList();
@@ -337,7 +389,7 @@ namespace Sklep_z_truciznami.Controllers
 
                 productList.Remove(mainProduct);
                 List<ProductVM> convertedProductsList = ConvertProductsToVM(productList);
-                convertedProductsList.Sort((x, y) => x.Rating.CompareTo(y.Rating));                
+                convertedProductsList.Sort((x, y) => x.Rating.CompareTo(y.Rating));
 
                 foreach (var item in convertedProductsList)
                 {

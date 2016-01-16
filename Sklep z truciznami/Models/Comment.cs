@@ -46,7 +46,7 @@ namespace Sklep_z_truciznami.Models
 
             this.ProductId = produtId;
             this.CommentContent = commentContent;
-            this.CommentDate = DateTime.Today;
+            this.CommentDate = DateTime.Now;
             this.IsVisible = true;
         }
 
