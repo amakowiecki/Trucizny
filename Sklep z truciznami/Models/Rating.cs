@@ -104,6 +104,9 @@ namespace Sklep_z_truciznami.Models
             var userManager = new UserManager<ApplicationUser>(store);
             ApplicationUser user = userManager.FindByNameAsync(userName).Result;
 
+            if (user == null)
+                return "";
+
             return user.Id;
         }
     }

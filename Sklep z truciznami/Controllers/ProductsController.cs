@@ -27,7 +27,7 @@ namespace Sklep_z_truciznami.Controllers
             return View(ProductDb.Products.ToList());
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
