@@ -12,7 +12,7 @@
                     grid.Column("", header: "Zdjęcie", format: x => Html.Raw(string.Format("<img style=\"height:100px; width:120px; background-position:center; background-size:cover; padding-left:10px;padding-right:10px \" src=\"/Products/Show/{0}\" />", x.ProductId))),
                     grid.Column("ProductName","Nazwa produktu", format: x =>Html.Raw(string.Format("<a href=\"/Products/Details/{0}\">{1}</a> ",x.ProductId,x.ProductName))),
                     grid.Column("Quantity", "Dostępna ilość"),
-                    grid.Column("Category", format: x => EnumsHelper.GetName(x.Category)),
+                    grid.Column("Category", "Kategoria", format: x => EnumsHelper.GetName(x.Category), canSort: false),
                     grid.Column("Price", "Cena za sztukę (w PLN)"),
                     grid.Column("Tags", "Tagi"),
                     grid.Column("Rating", "Ocena", format: x => x.Rating),

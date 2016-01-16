@@ -13,8 +13,14 @@
             @Html.CheckBox("searchInDescription")
             @Html.Label("Szukaj też w opisach")
         }
-
     </div>
+@if (User.IsInRole("Owner"))
+{
+    <div>
+        <br />
+        @Html.ActionLink("Zarządzaj produktami", "Index", "Products", null, null)
+    </div>
+}
 <div id="ListOfProducts">  
     @Html.Partial("PartialListOfProducts", Model)
 </div>

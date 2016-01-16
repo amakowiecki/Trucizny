@@ -4,10 +4,10 @@
     ViewBag.Title = "Produkty";
 }
 
-<h2>Indeks</h2>
+<h2>Zarządzanie produktami</h2>
 
 <p>
-    @Html.ActionLink("Dodaj", "Create")
+    @Html.ActionLink("Dodaj produkt", "Create")
 </p>
 <table class="table">
     <tr>
@@ -77,11 +77,9 @@
             @Html.DisplayFor(modelItem => item.RatingNumber)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductId }) |
-            @Html.ActionLink("Add to cart", "AddProductToCart", "Order", new { productID =item.ProductId, quantity=1},null)
-            @Ajax.ActionLink("ADD", "AddProductToCart", "Order", new { productID = item.ProductId, quantity = 1 }, new AjaxOptions() { UpdateTargetId = "update" })
+            @Html.ActionLink("Edytuj", "Edit", new { id=item.ProductId }) |
+            @Html.ActionLink("Szczegóły", "Details", new { id=item.ProductId }) |
+            @Html.ActionLink("Usuń", "Delete", new { id=item.ProductId }) 
             <span id="update"></span>
 </td>
     </tr>
