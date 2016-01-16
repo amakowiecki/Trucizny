@@ -81,8 +81,8 @@
                                 <h3>@item.ProductName</h3>
                                 <p>@item.ProductDescription</p>
                                 <p>
+                                    <a href="@Url.Action("AddProductToCart", "Order", new { productID = @item.ProductId, quantity = 1 })" class="btn btn-primary" role="button">Dodaj do koszyka</a>
                                     <a href="@Url.Action("Details", "Products", new {id = @item.ProductId})" class="btn btn-default" role="button">Szczegóły</a>
-                                    <a href="#" class="btn btn-primary" role="button">Dodaj do koszyka</a>
                                 </p>
                             </div>
                         </div>

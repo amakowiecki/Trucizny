@@ -53,7 +53,7 @@
     @*<div>@Html.ActionLink("Kontynuuj zakupy","Index","Products")</div>
     <div>@Html.ActionLink("Zakończ zamówienie", "PlaceOrder","Order")</div>*@
     <div class="btn-group" role="group" aria-label="...">
-        <input type="button" class="btn btn-primary" value="Kontynuuj zakupy" onclick="location.href='@Url.Action("Index", "Products")'" />
+        <input type="button" class="btn btn-primary" value="Kontynuuj zakupy" onclick="location.href='@Url.Action("ListOfProducts", "Products")'" />
         <input type="button" class="btn btn-primary" value="Złóż zamówienie" onclick="location.href='@Url.Action("PlaceOrder", "Order")'" />
     </div>
     <div style="margin-top:40px"><input type="button" class="btn btn-default" value="Pokaż zamówienia" onclick="location.href='@Url.Action("ShowOrders", "Order")'" /></div>
