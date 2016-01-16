@@ -112,15 +112,18 @@
                                 <li>@Html.ActionLink(category, "ShowByCategory", "Products", new { category = item}, null)</li>
                             }
                         </ul>
-                    </li>
-                    <li class="dropdown">
-                        @Html.ActionLink("Dostawa", "Shipping", "Home")
-
-                    </li>
+                    </li>                    
                     @if (User.IsInRole("Owner"))
                     {
                         <li class="dropdown">
-                            @Html.ActionLink("Zarządzaj użytkownikami", "ManageUsers", "Manage", null, new { @class = "dropdown-toggle", role = "button" })
+                            @Html.ActionLink("Użytkownicy", "ManageUsers", "Manage", null, new { @class = "dropdown-toggle", role = "button" })
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
+                            @Html.ActionLink("Dostawa", "Shipping", "Home")
+
                         </li>
                     }
                 </ul>
@@ -136,14 +139,28 @@
                     </div>*@
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="@Url.Action("ShowCart", "Order", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"><span class="glyphicon glyphicon-shopping-cart"></span> Koszyk (<span id="liczebnoscKoszyka">0</span>)</a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.Partial("PartialCart")</li>
-                        </ul>
-                    </li>
-
-                    <li>@Html.Partial("_LoginPartial")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="@Url.Action("ShowOrders", "Order", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })">Zamówienia</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="@Url.Action("ShowCart", "Order", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })"><span class="glyphicon glyphicon-shopping-cart"></span> Koszyk (<span id="liczebnoscKoszyka">0</span>)</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.Partial("PartialCart")</li>
+                            </ul>
+                        </li>
+                        <li>@Html.Partial("_LoginPartial")</li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
+                            <a href="@Url.Action("Register", "Account", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })">Zarejestruj</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="@Url.Action("Login", "Account", new { @class = "dropdown-toggle", role = "button", aria_haspopup = "true", aria_expanded = "false" })">Zaloguj</a>
+                        </li>
+                    }                    
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

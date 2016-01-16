@@ -50,7 +50,7 @@
 
                                     <div>
                                         @Html.ValidationMessageFor(model => model.Rating.Rate, "", new { @class = "text-danger" })
-                                        @Html.EditorFor(model => model.Rating.Rate, new { htmlAttributes = new { @class = "form-control", @style = "height:30px;width:70px;vertical-align:top;display:inline-block;" } })
+                                        @Html.DropDownListFor(model => model.Rating.Rate, new SelectList(ViewBag.Rates as List<object>), new { @class = "form-control", @style = "height:30px;width:70px;vertical-align:top;display:inline-block;" })
                                         <button type="submit" class="btn btn-primary" style="display:inline-block;">
                                             <span>Oceń</span>
                                         </button>

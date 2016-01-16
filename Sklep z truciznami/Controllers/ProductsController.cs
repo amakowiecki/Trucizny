@@ -41,7 +41,12 @@ namespace Sklep_z_truciznami.Controllers
             }
 
             Details Details = new Details(product, CommentDb, RatingDb, User.Identity.Name);
-
+            List<object> rates = new List<object>();
+            for (int i = 1; i <= 10; i++)
+            {
+                rates.Add(i);
+            }
+            ViewBag.Rates = rates;
             Dictionary<long, string> CommentUsers = new Dictionary<long, string>();
             foreach (var comment in Details.Comments)
             {
@@ -181,13 +186,25 @@ namespace Sklep_z_truciznami.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Owner")]
-        public ActionResult Edit([Bind(Include = "ProductId,SupplierId,ProductName,ProductDescription,Quantity,AddDate,Category,Price,Tags,Photo,RatingSum,RatingNumber")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductId,SupplierId,ProductName,ProductDescription,Quantity,Category,Price,Tags,Photo,RatingSum,RatingNumber")] Product product)
         {
+            Product oldProduct = ProductDb.Products.AsNoTracking().Where(x => x.ProductId == product.ProductId).FirstOrDefault();
+            if (oldProduct== null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            product.AddDate = oldProduct.AddDate;
+            if (product.PhotoFile == null)
+            {
+                product.PhotoFile = oldProduct.PhotoFile;
+                product.PhotoImageFileName = oldProduct.PhotoImageFileName;
+                product.PhotoImageMimeType = oldProduct.PhotoImageMimeType;
+            }
             if (ModelState.IsValid)
             {
-                ProductDb.Entry(product).State = EntityState.Modified;
+                ProductDb.Entry(product).State = EntityState.Modified; 
                 ProductDb.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ListOfProducts");
             }
             return View(product);
         }
