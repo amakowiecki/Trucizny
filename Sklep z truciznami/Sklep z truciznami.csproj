@@ -215,6 +215,7 @@
     </Content>
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo2.png" />
+    <Content Include="Content\images\logo_bow.png" />
     <Content Include="Content\images\slider\slide01.jpg" />
     <Content Include="Content\images\slider\slide02.jpg" />
     <Content Include="Content\images\slider\slide03.jpg" />

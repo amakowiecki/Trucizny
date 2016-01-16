@@ -4,12 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Oferta Walentynki 2016</h2>
-
-<p style="margin:3% 5%;font-size:13pt;text-align: justify;">
+@*<p style="margin:3% 5%;font-size:13pt;text-align: justify;">
     10% zniżki na eliksiry miłosne!
 </p>
 <p style="margin:0 5% 3% 5%;font-size:13pt;text-align: justify;">
     Przed walentynkami wiele osób szuka pomocy w usidleniu swojej sympatii lub w zwiększeniu doznań podczas przeżywania miłosnych uniesień. Dzięki nam staje się to łatwiejsze. W naszym sklepie oferujemy promocję na eliksiry miłosne takie jak @Html.ActionLink("wywar z lubczyku", "Details", "Products", new { id = ViewBag.lovageId}, null)
     czy @Html.ActionLink("chloroform", "Details", new { id = ViewBag.chloroformId}, null)
-</p>
+</p>*@
+
+<div class="jumbotron" style="width:75%;text-align:center;margin:auto">
+    <h1>Oferta Walentynki 2016</h1>
+    <h3 style="margin-top:30px">
+        10% zniżki na eliksiry miłosne!  Przed walentynkami wiele osób szuka pomocy w usidleniu swojej sympatii lub w zwiększeniu doznań podczas przeżywania miłosnych uniesień. Dzięki nam staje się to łatwiejsze. W naszym sklepie oferujemy promocję na eliksiry miłosne takie jak @Html.ActionLink("wywar z lubczyku", "Details", "Products", new { id = ViewBag.lovageId }, null) czy @Html.ActionLink("chloroform", "Details", new { id = ViewBag.chloroformId }, null).
+    </h3>
+</div>
